@@ -77,6 +77,7 @@ default_style :: proc() -> CCStyle {
 
 CC :: struct {
     config:         CCConfig,
+	state:          ^CCState,
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
 	last_keycode:   sapp.Keycode,
@@ -116,6 +117,20 @@ g_ctx := CCContext{}
 @(private)
 c : CC
 
+CCState :: struct {
+    pass_action: sg.Pass_Action,
+    tex_view: sg.View,
+    smp: sg.Sampler,
+    pip_3d: sgl.Pipeline,
+}
+
+@(private)
+state := CCState {
+    pass_action = {
+        colors = { 0 = { load_action = .CLEAR, clear_value = { 0.0, 0.0, 0.0, 1.0 } } },
+    },
+}
+
 @(private)
 init :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
@@ -136,6 +151,31 @@ init :: proc "c" (_: rawptr) {
 }
 
 @(private)
+begin :: proc () {
+	// compute viewport rectangles so that the views are horizontally
+    // centered and keep a 1:1 aspect ratio
+    dw := sapp.width()
+    dh := sapp.height()
+    ww := dh / 2 // not a bug
+    hh := dh / 2
+    x0 := dw / 2 - hh
+    x1 := dw / 2
+    y0 := 0
+    y1 := dh / 2
+
+	// sgl.viewport(x0, y0, ww, hh, true)
+	sgl.viewport(0, 0, dw, dh, true)
+}
+
+@(private)
+end :: proc () {
+	sg.begin_pass({ action = state.pass_action, swapchain = sglue.swapchain() })
+	sgl.draw()
+    sg.end_pass()
+    sg.commit()
+}
+
+@(private)
 frame :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
@@ -143,7 +183,7 @@ frame :: proc "c" (_: rawptr) {
 		c.config.update_fn.(FNCb)(c.config.user_data)
 	}
 
-	// c.gg.begin()
+	begin()
 	push_matrix()
 	push_style()
 	if c.config.draw_fn != nil {
@@ -151,7 +191,7 @@ frame :: proc "c" (_: rawptr) {
 	}
 	pop_style()
 	pop_matrix()
-	// c.gg.end()
+	end()
 
 	update_prev_key()
 }
@@ -237,7 +277,8 @@ setup :: proc (config: CCConfig) {
 	bg_color := colors.white
 
     c = CC {
-		config = config
+		config = config,
+		state = &state
 	}
 
     if ctx.pref.user_data != nil && c.config.user_data == nil {
