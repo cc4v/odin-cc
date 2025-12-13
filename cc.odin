@@ -119,16 +119,94 @@ CCContext :: struct {
 	pref: InitialPreference
 }
 
+g_ctx := CCContext{}
+
 get_context:: proc() -> ^CCContext {
-    return nil
+    return &g_ctx
+}
+
+// alias of get_context()
+ctx :: proc() -> ^CCContext {
+    return get_context()
 }
 
 setup :: proc (config: CCConfig) {
-    ctx := get_context()
+    ctx := ctx()
 
 	w := 400
 	h := 400
 	bg_color := colors.white
+
+    c := CC {
+		config = config
+	}
+
+    if ctx.pref.user_data != nil && c.config.user_data == nil {
+		c.config.user_data = ctx.pref.user_data
+	}
+
+    if ctx.pref.size != nil {
+		w = ctx.pref.size.(Vector2(int)).x
+		h = ctx.pref.size.(Vector2(int)).y
+	}
+
+    if ctx.pref.bg_color != nil {
+		bg_color = ctx.pref.bg_color.(types.Color)
+	}
+
+    if c.config.init_fn == nil && ctx.pref.init_fn != nil {
+		c.config.init_fn = ctx.pref.init_fn.(FNCb)
+	}
+
+    if c.config.cleanup_fn == nil && ctx.pref.cleanup_fn != nil {
+		c.config.cleanup_fn = ctx.pref.cleanup_fn.(FNCb)
+	}
+
+    if c.config.event_fn == nil && ctx.pref.event_fn != nil {
+		c.config.event_fn = ctx.pref.event_fn.(FNEvent)
+	}
+
+    if c.config.keydown_fn == nil && ctx.pref.keydown_fn != nil {
+		c.config.keydown_fn = ctx.pref.keydown_fn.(FNKeyDown)
+	}
+
+    if c.config.keyup_fn == nil && ctx.pref.keyup_fn != nil {
+		c.config.keyup_fn = ctx.pref.keyup_fn.(FNKeyUp)
+	}
+
+    if c.config.click_fn == nil && ctx.pref.click_fn != nil {
+		c.config.click_fn = ctx.pref.click_fn.(FNClick)
+	}
+
+    if c.config.unclick_fn == nil && ctx.pref.unclick_fn != nil {
+		c.config.unclick_fn = ctx.pref.unclick_fn.(FNUnClick)
+	}
+
+    if c.config.move_fn == nil && ctx.pref.move_fn != nil {
+		c.config.move_fn = ctx.pref.move_fn.(FNMove)
+	}
+
+    // c.gg = gg.new_context(
+	// 	bg_color:      bg_color
+	// 	width:         w
+	// 	height:        h
+	// 	create_window: true
+	// 	window_title:  ctx.pref.title
+	// 	init_fn:       c.init
+	// 	frame_fn:      c.frame
+	// 	cleanup_fn:    c.cleanup
+	// 	event_fn:      c.on_event
+	// 	click_fn:      c.on_click
+	// 	unclick_fn:    c.on_unclick
+	// 	keyup_fn:      c.on_keyup
+	// 	keydown_fn:    c.on_keydown
+	// 	move_fn:       c.on_move
+	// 	user_data:     c.config.user_data
+	// 	fullscreen:    ctx.pref.fullscreen
+	// )
+
+    ctx.cc = c
+    // c.gg.run()
 
 	sapp.run({
 		width =             640,
