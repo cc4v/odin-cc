@@ -81,6 +81,7 @@ CC :: struct {
 	state:          ^CCState,
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
+	fullscreen:     bool,
 	last_keycode:   sapp.Keycode,
 	prev_keycode:   sapp.Keycode,
 	last_keydown:   bool,
@@ -380,6 +381,7 @@ setup :: proc (config: CCConfig) {
 	state.pass_action.colors[0].clear_value = bg_color
 
 	// TODO: fullscreen treatment
+	c.fullscreen = ctx.pref.fullscreen
 
     // c.gg = gg.new_context(
 	// 	bg_color:      bg_color
