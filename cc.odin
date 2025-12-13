@@ -12,6 +12,7 @@ import sg "shared:sokol/gfx"
 import sgl "shared:sokol/gl"
 import sglue "shared:sokol/glue"
 import slog "shared:sokol/log"
+import sdtx "shared:sokol/debugtext"
 import colors "./colors"
 import types "./types"
 
@@ -145,6 +146,8 @@ init :: proc "c" (_: rawptr) {
         logger = { func = slog.func },
     })
 
+	text_setup()
+
 	apply_style()
 
 	if c.config.init_fn != nil {
@@ -172,7 +175,8 @@ begin :: proc () {
 @(private)
 end :: proc () {
 	sg.begin_pass({ action = state.pass_action, swapchain = sglue.swapchain() })
-	sgl.draw()
+	sgl.draw() // FIXME: position/layer
+	sdtx.draw() // FIXME: position/layer
     sg.end_pass()
     sg.commit()
 }
@@ -184,6 +188,8 @@ frame :: proc "c" (_: rawptr) {
 	if c.config.update_fn != nil {
 		c.config.update_fn.(FNCb)(c.config.user_data)
 	}
+
+	text_init_frame()
 
 	begin()
 	push_matrix()
@@ -291,6 +297,44 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		}
 	}
 }
+
+data :: proc ($T: typeid) -> ^T {
+	ctx := get_context()
+	if ctx.cc == nil {
+		return nil
+	} else {
+		return config_get_data()
+	}
+}
+
+@(private)
+config_get_data :: proc ($T: typeid) -> ^T {
+	return (^T)(c.config.user_data)
+}
+
+set_data :: proc (dat: rawptr) {
+	ctx := get_context()
+	if ctx.cc == nil {
+		ctx.pref.user_data = dat
+	}else{
+		config_set_data(dat)
+	}
+}
+
+@(private)
+config_set_data :: proc (user_data_ptr: rawptr) {
+	c.config.user_data = user_data_ptr
+}
+
+// set_data_new[T]() {
+// 	mut ctx := context()
+// 	mut dat := &T{}
+// 	if unsafe { ctx.cc == nil } {
+// 		ctx.pref.user_data = dat
+// 	}else{
+// 		ctx.cc.set_data(dat)
+// 	}
+// }
 
 @(private)
 get_context:: proc() -> ^CCContext {
