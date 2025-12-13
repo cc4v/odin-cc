@@ -323,6 +323,9 @@ setup :: proc (config: CCConfig) {
 		c.config.move_fn = ctx.pref.move_fn.(FNMove)
 	}
 
+	// set bg_color
+	state.pass_action.colors[0].clear_value = bg_color
+
     // c.gg = gg.new_context(
 	// 	bg_color:      bg_color
 	// 	width:         w
