@@ -20,7 +20,10 @@ Vector3 :: #type types.Vector3
 Color :: #type types.Color
 TextCfg :: #type types.TextCfg
 
-Modifier :: enum i32 {
+
+Modifiers :: u32 // bit_set[Modifier]
+
+Modifier :: enum u16 {
     SHIFT = 1,
     CTRL = 2,
     ALT = 4,
@@ -32,8 +35,8 @@ Modifier :: enum i32 {
 
 FNCb :: #type proc(rawptr)
 FNEvent :: #type proc(^sapp.Event, rawptr)
-FNKeyDown :: #type proc(sapp.Keycode, Modifier, rawptr)
-FNKeyUp :: #type proc(sapp.Keycode, Modifier, rawptr)
+FNKeyDown :: #type proc(sapp.Keycode, Modifiers, rawptr)
+FNKeyUp :: #type proc(sapp.Keycode, Modifiers, rawptr)
 FNClick :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
 FNUnClick :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
 FNMove :: #type proc(f32, f32, rawptr)
@@ -237,12 +240,54 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 
 	update_last_key(event)
 
+	user_data := c.config.user_data
+	prev_mousedown : bool = c.last_mousedown
+	prev_keydown : bool = c.last_keydown
+
 	if c.config.event_fn != nil {
-		c.config.event_fn.(FNEvent)(event, c.config.user_data)
+		c.config.event_fn.(FNEvent)(event, user_data)
 	}
 
-	if event.type == .MOUSE_DOWN {
+	if event.type == .MOUSE_DOWN && !prev_mousedown {
+		if c.config.click_fn != nil {
+			x := event.mouse_x
+			y := event.mouse_y
+			btn := event.mouse_button
+			c.config.click_fn.(FNClick)(x, y, btn, user_data)
+		}
+	}
 
+	if event.type == .MOUSE_UP && prev_mousedown {
+		if c.config.unclick_fn != nil {
+			x := event.mouse_x
+			y := event.mouse_y
+			btn := event.mouse_button
+			c.config.unclick_fn.(FNUnClick)(x, y, btn, user_data)
+		}
+	}
+
+	if event.type == .MOUSE_MOVE {
+		if c.config.move_fn != nil {
+			x := event.mouse_x
+			y := event.mouse_y
+			c.config.move_fn.(FNMove)(x, y, user_data)
+		}
+	}
+
+	if event.type == .KEY_DOWN && !prev_keydown {
+		if c.config.keydown_fn != nil {
+			modifiers := event.modifiers
+			keycode := event.key_code
+			c.config.keydown_fn.(FNKeyDown)(keycode, modifiers, user_data)
+		}
+	}
+
+	if event.type == .KEY_UP && prev_keydown {
+		if c.config.keyup_fn != nil {
+			modifiers := event.modifiers
+			keycode := event.key_code
+			c.config.keyup_fn.(FNKeyUp)(keycode, modifiers, user_data)
+		}
 	}
 }
 
@@ -333,6 +378,8 @@ setup :: proc (config: CCConfig) {
 
 	// set bg_color
 	state.pass_action.colors[0].clear_value = bg_color
+
+	// TODO: fullscreen treatment
 
     // c.gg = gg.new_context(
 	// 	bg_color:      bg_color
