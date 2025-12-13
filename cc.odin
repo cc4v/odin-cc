@@ -6,6 +6,7 @@ package cc
 
 import "core:fmt"
 import "base:runtime"
+import "core:strings"
 import sapp "shared:sokol/app"
 import sg "shared:sokol/gfx"
 import sgl "shared:sokol/gl"
@@ -266,6 +267,9 @@ cleanup :: proc "c" (_: rawptr) {
 }
 
 @(private)
+title_cstr : cstring
+
+@(private)
 setup :: proc (config: CCConfig) {
     ctx := ctx()
 
@@ -323,6 +327,10 @@ setup :: proc (config: CCConfig) {
 		c.config.move_fn = ctx.pref.move_fn.(FNMove)
 	}
 
+	if ctx.pref.title == "" {
+		ctx.pref.title = "Canvas"
+	}
+
 	// set bg_color
 	state.pass_action.colors[0].clear_value = bg_color
 
@@ -348,6 +356,8 @@ setup :: proc (config: CCConfig) {
     ctx.cc = &c
     // c.gg.run()
 
+	title_cstr = strings.clone_to_cstring(ctx.pref.title)
+
 	sapp.run({
 		width =               i32(w),
 		height =              i32(h),
@@ -355,7 +365,7 @@ setup :: proc (config: CCConfig) {
 		frame_userdata_cb =   frame,
 		event_userdata_cb =   on_event,
 		cleanup_userdata_cb = cleanup,
-		window_title =        "Sokol Drawing Template",
+		window_title =        title_cstr,
 	})
 }
 
