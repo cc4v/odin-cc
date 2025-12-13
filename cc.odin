@@ -14,18 +14,9 @@ import slog "shared:sokol/log"
 import colors "./colors"
 import types "./types"
 
+Vector2 :: #type types.Vector2
+Vector3 :: #type types.Vector3
 Color :: #type types.Color
-
-Vector2 :: struct($T: typeid) {
-	x: T,
-	y: T,
-}
-
-Vector3 :: struct($T: typeid) {
-	x: T,
-	y: T,
-    z: T
-}
 
 Modifier :: enum i32 {
     SHIFT = 1,
@@ -61,7 +52,7 @@ CCConfig :: struct  {
 }
 
 TextCfg :: struct {
-
+	color: Color
 }
 
 CCStyle :: struct {
@@ -87,7 +78,7 @@ default_style :: proc() -> CCStyle {
 CC :: struct {
     config:         CCConfig,
 	current_style:  CCStyle,
-	style_history:  Stack(CCStyle),
+	style_history:  Stack(CCStyle, cc_max_style_history),
 	last_keycode:   sapp.Keycode,
 	prev_keycode:   sapp.Keycode,
 	last_keydown:   bool,
@@ -115,7 +106,7 @@ InitialPreference :: struct {
 }
 
 CCContext :: struct {
-	cc:  CC,
+	cc:  ^CC,
 	pref: InitialPreference
 }
 
@@ -129,7 +120,15 @@ c : CC
 init :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
-	// c.apply_style()
+	sg.setup({
+        environment = sglue.environment(),
+        logger = { func = slog.func },
+    })
+    sgl.setup({
+        logger = { func = slog.func },
+    })
+
+	apply_style()
 
 	if c.config.init_fn != nil {
 		c.config.init_fn.(FNCb)(c.config.user_data)
@@ -145,13 +144,13 @@ frame :: proc "c" (_: rawptr) {
 	}
 
 	// c.gg.begin()
-	// push_matrix()
-	// push_style()
+	push_matrix()
+	push_style()
 	if c.config.draw_fn != nil {
 		c.config.draw_fn.(FNCb)(c.config.user_data)
 	}
-	// pop_style()
-	// pop_matrix()
+	pop_style()
+	pop_matrix()
 	// c.gg.end()
 
 	update_prev_key()
@@ -305,7 +304,7 @@ setup :: proc (config: CCConfig) {
 	// 	fullscreen:    ctx.pref.fullscreen
 	// )
 
-    ctx.cc = c
+    ctx.cc = &c
     // c.gg.run()
 
 	sapp.run({
