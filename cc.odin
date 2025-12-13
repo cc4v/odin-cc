@@ -60,10 +60,6 @@ CCConfig :: struct  {
 	user_data:    rawptr
 }
 
-Context :: struct {
-
-}
-
 TextCfg :: struct {
 
 }
@@ -100,8 +96,6 @@ CC :: struct {
 	prev_mousebutton:   sapp.Mousebutton,
 	last_mousedown: bool,
 	prev_mousedown: bool,
-
-	gg: Context // = unsafe { nil }
 }
 
 InitialPreference :: struct {
