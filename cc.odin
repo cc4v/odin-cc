@@ -119,9 +119,13 @@ CCContext :: struct {
 	pref: InitialPreference
 }
 
+@(private)
 g_ctx := CCContext{}
+
+@(private)
 c : CC
 
+@(private)
 init :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
@@ -132,6 +136,7 @@ init :: proc "c" (_: rawptr) {
 	}
 }
 
+@(private)
 frame :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
@@ -152,6 +157,7 @@ frame :: proc "c" (_: rawptr) {
 	update_prev_key()
 }
 
+@(private)
 update_prev_key :: proc() {
 	c.prev_keycode = c.last_keycode
 	c.prev_keydown = c.last_keydown
@@ -159,6 +165,7 @@ update_prev_key :: proc() {
 	c.prev_mousedown = c.last_mousedown
 }
 
+@(private)
 update_last_key :: proc (e: ^sapp.Event) {
 	if e.type == .KEY_DOWN {
 		c.last_keydown = true
@@ -183,25 +190,37 @@ update_last_key :: proc (e: ^sapp.Event) {
 	}
 }
 
+@(private)
 on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 	context = runtime.default_context()
+
+	if event == nil {
+		return
+	}
 
 	update_last_key(event)
 
 	if c.config.event_fn != nil {
 		c.config.event_fn.(FNEvent)(event, c.config.user_data)
 	}
+
+	if event.type == .MOUSE_DOWN {
+
+	}
 }
 
+@(private)
 get_context:: proc() -> ^CCContext {
     return &g_ctx
 }
 
 // alias of get_context()
+@(private)
 ctx :: proc() -> ^CCContext {
     return get_context()
 }
 
+@(private)
 cleanup :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
@@ -210,6 +229,7 @@ cleanup :: proc "c" (_: rawptr) {
 	}
 }
 
+@(private)
 setup :: proc (config: CCConfig) {
     ctx := ctx()
 
@@ -231,7 +251,7 @@ setup :: proc (config: CCConfig) {
 	}
 
     if ctx.pref.bg_color != nil {
-		bg_color = ctx.pref.bg_color.(types.Color)
+		bg_color = ctx.pref.bg_color.(Color)
 	}
 
     if c.config.init_fn == nil && ctx.pref.init_fn != nil {
