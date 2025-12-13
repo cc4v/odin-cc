@@ -38,7 +38,7 @@ Modifier :: enum i32 {
 }
 
 FNCb :: #type proc(rawptr)
-FNEvent :: #type proc(sapp.Event, rawptr)
+FNEvent :: #type proc(^sapp.Event, rawptr)
 FNKeyDown :: #type proc(sapp.Keycode, Modifier, rawptr)
 FNKeyUp :: #type proc(sapp.Keycode, Modifier, rawptr)
 FNClick :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
@@ -120,6 +120,78 @@ CCContext :: struct {
 }
 
 g_ctx := CCContext{}
+c : CC
+
+init :: proc "c" (_: rawptr) {
+	context = runtime.default_context()
+
+	// c.apply_style()
+
+	if c.config.init_fn != nil {
+		c.config.init_fn.(FNCb)(c.config.user_data)
+	}
+}
+
+frame :: proc "c" (_: rawptr) {
+	context = runtime.default_context()
+
+	if c.config.update_fn != nil {
+		c.config.update_fn.(FNCb)(c.config.user_data)
+	}
+
+	// c.gg.begin()
+	// push_matrix()
+	// push_style()
+	if c.config.draw_fn != nil {
+		c.config.draw_fn.(FNCb)(c.config.user_data)
+	}
+	// pop_style()
+	// pop_matrix()
+	// c.gg.end()
+
+	update_prev_key()
+}
+
+update_prev_key :: proc() {
+	c.prev_keycode = c.last_keycode
+	c.prev_keydown = c.last_keydown
+	c.prev_mousebutton = c.last_mousebutton
+	c.prev_mousedown = c.last_mousedown
+}
+
+update_last_key :: proc (e: ^sapp.Event) {
+	if e.type == .KEY_DOWN {
+		c.last_keydown = true
+	}
+	if e.type == .KEY_UP {
+		c.last_keydown = false
+	}
+
+	if e.type == .MOUSE_DOWN {
+		c.last_mousedown = true
+	}
+	if e.type == .MOUSE_UP {
+		c.last_mousedown = false
+	}
+
+	if e.type == .KEY_DOWN || e.type == .KEY_UP {
+		c.last_keycode = e.key_code
+	}
+
+	if e.type == .MOUSE_DOWN || e.type == .MOUSE_UP {
+		c.last_mousebutton = e.mouse_button
+	}
+}
+
+on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
+	context = runtime.default_context()
+
+	update_last_key(event)
+
+	if c.config.event_fn != nil {
+		c.config.event_fn.(FNEvent)(event, c.config.user_data)
+	}
+}
 
 get_context:: proc() -> ^CCContext {
     return &g_ctx
@@ -130,6 +202,14 @@ ctx :: proc() -> ^CCContext {
     return get_context()
 }
 
+cleanup :: proc "c" (_: rawptr) {
+	context = runtime.default_context()
+
+	if c.config.cleanup_fn != nil {
+		c.config.cleanup_fn.(FNCb)(c.config.user_data)
+	}
+}
+
 setup :: proc (config: CCConfig) {
     ctx := ctx()
 
@@ -137,7 +217,7 @@ setup :: proc (config: CCConfig) {
 	h := 400
 	bg_color := colors.white
 
-    c := CC {
+    c = CC {
 		config = config
 	}
 
@@ -209,12 +289,13 @@ setup :: proc (config: CCConfig) {
     // c.gg.run()
 
 	sapp.run({
-		width =             i32(w),
-		height =            i32(h),
-		// init_userdata_cb =  init,
-		// frame_userdata_cb = frame,
-		// cleanup_cb =        cleanup,
-		window_title =      "Sokol Drawing Template",
+		width =               i32(w),
+		height =              i32(h),
+		init_userdata_cb =    init,
+		frame_userdata_cb =   frame,
+		event_userdata_cb =   on_event,
+		cleanup_userdata_cb = cleanup,
+		window_title =        "Sokol Drawing Template",
 	})
 }
 
