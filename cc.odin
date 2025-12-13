@@ -12,6 +12,24 @@ import sgl "shared:sokol/gl"
 import sglue "shared:sokol/glue"
 import slog "shared:sokol/log"
 
+Vector2 :: struct($T: typeid) {
+	x: T,
+	y: T,
+}
+
+Vector3 :: struct($T: typeid) {
+	x: T,
+	y: T,
+    z: T
+}
+
+Color :: struct {
+	r: u8,
+    g: u8,
+    b: u8,
+    a: u8
+}
+
 Modifier :: enum i32 {
     SHIFT = 1,
     CTRL = 2,
@@ -43,6 +61,51 @@ CCConfig :: struct  {
 	unclick_fn:   Maybe(FNUnClick),
 	move_fn:      Maybe(FNMove),
 	user_data:    rawptr
+}
+
+Context :: struct {
+
+}
+
+CCStyle :: struct {
+
+}
+
+CC :: struct {
+  config:         CCConfig,
+	current_style:  CCStyle,
+	style_history:  Stack(CCStyle),
+	last_keycode:   sapp.Keycode,
+	prev_keycode:   sapp.Keycode,
+	last_keydown:   bool,
+	prev_keydown:   bool,
+	last_mousebutton:   sapp.Mousebutton,
+	prev_mousebutton:   sapp.Mousebutton,
+	last_mousedown: bool,
+	prev_mousedown: bool,
+
+	gg: Context // = unsafe { nil }
+}
+
+InitialPreference :: struct {
+    size:         Maybe(Vector2(int)),
+	init_fn:      Maybe(FNCb),
+	cleanup_fn:   Maybe(FNCb),
+	event_fn:     Maybe(FNEvent),
+	keydown_fn:   Maybe(FNKeyDown),
+	keyup_fn:     Maybe(FNKeyUp),
+	click_fn:     Maybe(FNClick),
+	unclick_fn:   Maybe(FNUnClick),
+	move_fn:      Maybe(FNMove),
+	bg_color:     Maybe(Color),
+	title:        string, // = "Canvas"
+	fullscreen:   bool,
+	user_data:    rawptr   
+}
+
+CCContext :: struct {
+	cc:  CC,
+	pref: InitialPreference
 }
 
 setup :: proc (config: CCConfig) {
