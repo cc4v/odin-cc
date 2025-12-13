@@ -17,6 +17,7 @@ import types "./types"
 Vector2 :: #type types.Vector2
 Vector3 :: #type types.Vector3
 Color :: #type types.Color
+TextCfg :: #type types.TextCfg
 
 Modifier :: enum i32 {
     SHIFT = 1,
@@ -49,10 +50,6 @@ CCConfig :: struct  {
 	unclick_fn:   Maybe(FNUnClick),
 	move_fn:      Maybe(FNMove),
 	user_data:    rawptr
-}
-
-TextCfg :: struct {
-	color: Color
 }
 
 CCStyle :: struct {
