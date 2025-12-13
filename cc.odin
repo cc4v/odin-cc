@@ -209,8 +209,8 @@ setup :: proc (config: CCConfig) {
     // c.gg.run()
 
 	sapp.run({
-		width =             640,
-		height =            480,
+		width =             i32(w),
+		height =            i32(h),
 		// init_userdata_cb =  init,
 		// frame_userdata_cb = frame,
 		// cleanup_cb =        cleanup,
