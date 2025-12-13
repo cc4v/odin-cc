@@ -1,0 +1,19 @@
+# API Design
+
+## Basic rule
+
+- For naming rule, prefer Processing function names and calling convention (this would match odin.)
+- For implementation, prioritize openFramworks compatibility, especially when Processing has different theory (for example `fill` / `no_fill`.)
+- If function overload or global variables becomes problem, check odin's convention, or how Ebitengine and [V's gg](https://modules.vlang.io/gg.html) is doing, and choose natural one.
+
+## This framework is/does:
+
+- Eliminate hard part for artists. Provide easy way to do something.
+- Be the first step for doing something. Should be the best tool for prototyping.
+    - If there are other professional tools compared to this framework. We should give way to them as the next step. We don't need to create professional tools. (But users can create them using/upon this framework.)
+
+## This framework is not / does not:
+
+- Not provide everything. If there are other libraries already doing something well, we should directly use them. For example, networking (OSC or DMX.)
+- Not game engine. Especially, we don't want to limit expression. So we don't provide for example ECS. Users should choose favorite library upon (in addition to) this framework. 
+    - You can create game engines upon this framework. CC (odin-cc) would be the canvas or painting materials of them.
