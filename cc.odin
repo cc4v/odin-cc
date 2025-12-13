@@ -119,7 +119,17 @@ CCContext :: struct {
 	pref: InitialPreference
 }
 
+get_context:: proc() -> ^CCContext {
+    return nil
+}
+
 setup :: proc (config: CCConfig) {
+    ctx := get_context()
+
+	w := 400
+	h := 400
+	bg_color := colors.white
+
 	sapp.run({
 		width =             640,
 		height =            480,

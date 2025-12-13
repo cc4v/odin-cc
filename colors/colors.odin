@@ -6,4 +6,8 @@ package colors
 
 import types "../types"
 
-black := types.color (0, 0, 0, 1)
+black := types.color (0, 0, 0)
+white := types.color (255, 255, 255)
+red := types.color (255, 0, 0)
+green := types.color (0, 255, 0)
+blue := types.color (0, 0, 255)
