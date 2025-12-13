@@ -11,6 +11,10 @@ import sg "shared:sokol/gfx"
 import sgl "shared:sokol/gl"
 import sglue "shared:sokol/glue"
 import slog "shared:sokol/log"
+import colors "./colors"
+import types "./types"
+
+Color :: #type types.Color
 
 Vector2 :: struct($T: typeid) {
 	x: T,
@@ -21,13 +25,6 @@ Vector3 :: struct($T: typeid) {
 	x: T,
 	y: T,
     z: T
-}
-
-Color :: struct {
-	r: u8,
-    g: u8,
-    b: u8,
-    a: u8
 }
 
 Modifier :: enum i32 {
@@ -67,12 +64,32 @@ Context :: struct {
 
 }
 
-CCStyle :: struct {
+TextCfg :: struct {
 
 }
 
+CCStyle :: struct {
+    color:             Color, // = gg.black,
+	text_config:       TextCfg,
+	fill:              bool, // = true,
+	circle_resolution: int,
+	sphere_resolution: int, // = 32,
+	curve_resolution:  int  // = 32
+}
+
+default_style :: proc() -> CCStyle {
+    return {
+        color =             colors.black,
+        text_config =       {},
+        fill = true,
+        circle_resolution = 32,
+        sphere_resolution = 32,
+        curve_resolution = 32
+    }
+}
+
 CC :: struct {
-  config:         CCConfig,
+    config:         CCConfig,
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle),
 	last_keycode:   sapp.Keycode,
