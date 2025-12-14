@@ -184,8 +184,8 @@ image_with_size:: proc(img: ^Image, x: f32, y: f32, w: f32, h: f32) {
 		if img != nil && img.ok && img.simg_ok {
 			// TODO: should load alpha pipeline if alpha blending is needed
 
-			color := colors.white
-			// color := ctx.cc.current_style.color
+			// color := colors.white
+			color := ctx.cc.current_style.color
 			// color := colors.red
 
 			c := colors.u8_color(color)
