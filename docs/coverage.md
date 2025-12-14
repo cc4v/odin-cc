@@ -26,7 +26,7 @@
 -->
 
 
-## [Window](../window.v)
+## [Window](../window.odin)
 
 <!--
 - size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/window_title/main.odin))
@@ -72,7 +72,7 @@
 - is_fullscreen
 -->
 
-## [Color](../color.v)
+## [Color](../color.odin)
 
 - background
 - set_color ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
@@ -80,7 +80,7 @@
 - fill ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
 - no_fill ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
 
-## [Push/Pop](../push_pop.v)
+## [Push/Pop](../push_pop.odin)
 
 - push_matrix
 - pop_matrix
@@ -89,7 +89,7 @@
 
 <!--
 
-## [Matrix](../matrix.v)
+## [Matrix](../matrix.odin)
 
 - scale
 - translate
@@ -99,7 +99,7 @@
 
 -->
 
-## [Shape](../shape.v)
+## [Shape](../shape.odin)
 
 - rect ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
 
@@ -120,7 +120,7 @@
 
 <!--
 
-## [Image](../image.v)
+## [Image](../image.odin)
 
 - load_image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
 - image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
