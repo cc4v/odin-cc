@@ -8,11 +8,11 @@
 - Processing style ([example](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world/main.odin), [example2](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world2/main.odin))
 - openFrameworks style ([example](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world3/main.odin))
 
-## gg interop
-
-- g ([example](https://github.com/cc4v/odin-cc-examples/blob/main/gg/main.odin))
-
 -->
+
+## Sokol GL interop
+
+- [sgl example](https://github.com/cc4v/odin-cc-examples/blob/main/sgl/main.odin)
 
 ## Function Callbacks (for Processing style)
 
