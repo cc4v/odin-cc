@@ -108,6 +108,9 @@ delete_image :: proc(image: ^Image) {
 		if image.ssmp.id > 0 {
 			sg.destroy_sampler(image.ssmp)
 		}
+		if image.sview.id > 0 {
+			sg.destroy_view(image.sview)
+		}
 	}
 }
 
