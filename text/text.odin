@@ -28,14 +28,20 @@ setup :: proc() {
 }
 
 init_frame :: proc() {
-    sdtx.canvas(sapp.widthf(), sapp.heightf())
+    // sdtx.canvas(sapp.widthf(), sapp.heightf())
     // sdtx.origin(0.0, 0.0)
 }
 
 draw_text :: proc (x: f32, y: f32, msg: string, cfg: types.TextCfg) {
     sdtx.font(0) // WORKAROUND
 
-    // TODO: set font size
+    font_size := f32(cfg.size)
+
+    // set font size
+    // NOTE: default font size of debugtext = 8 x 8
+
+    sdtx.canvas(sapp.widthf() / (font_size / 8), sapp.heightf() / (font_size / 8))
+    sdtx.origin(0.0, 0.0)
 
     cu := colors.u8_color(cfg.color)
     sdtx.color4b(
@@ -44,7 +50,7 @@ draw_text :: proc (x: f32, y: f32, msg: string, cfg: types.TextCfg) {
         cu.b,
         cu.a)
 
-    sdtx.pos(x / 8.0, y / 8.0) // WORKAROUND
+    sdtx.pos(x / font_size, y / font_size)
     sdtx.printf(msg)
 
     // fmt.println("color:", cfg.color)
