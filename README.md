@@ -37,7 +37,7 @@ see [odin-cc-examples](https://github.com/cc4v/odin-cc-examples) and [docs/cover
 ```bash
 $ git clone https://github.com/cc4v/odin-cc-examples
 $ cd odin-cc-examples
-$ v run hello_world
+$ odin run hello_world
 ```
 
 ## Contribution
