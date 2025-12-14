@@ -27,11 +27,11 @@ mmand.)
 
 ## Install
 
-> [!NOTE]
-> `$ODIN_ROOT` directory can be found by `odin root`
 
 ```bash
 $ git clone https://github.com/cc4v/odin-cc $ODIN_ROOT/shared/cc
+
+# NOTE: `$ODIN_ROOT` directory can be found by `odin root`
 ```
 
 ## Examples
