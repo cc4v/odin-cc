@@ -42,10 +42,10 @@
 - mouse_released
 - mouse_just_pressed
 - mouse_just_released
-- key
-- key_pressed
+- key ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
+- key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
 - key_released
-- key_just_pressed
+- key_just_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_just_pressed/main.odin))
 - key_just_released
 - scroll_x
 - scroll_y
@@ -57,15 +57,6 @@
 -->
 
 <!--
-- key ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
-- key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
-- key_released
-- key_just_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_just_pressed/main.odin))
-- key_just_released
-- scroll_x
-- scroll_y
-- width
-- height
 - screen_width
 - screen_height
 - fullscreen
