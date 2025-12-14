@@ -103,13 +103,14 @@
 - text ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_text/main.odin))
 - text_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_text/main.odin))
 
-<!--
-
 ## [Image](../image.odin)
 
 - load_image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
 - image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
 - image_with_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
+
+<!--
+
 - image_3d
 - image_3d_with_size
 - 
