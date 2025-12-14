@@ -32,7 +32,6 @@ draw_rect_empty :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     draw_line(x + w,    y,     x + w,  y + h,   col)
 }
 
-@(private)
 draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
     ww := sapp.widthf()
     wh := sapp.heightf()

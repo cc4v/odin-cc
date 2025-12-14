@@ -6,7 +6,13 @@ package cc
 
 import sd "./shape_drawer"
 
-// TODO: line
+line :: proc (x1: f32, y1: f32, x2: f32, y2: f32) {
+	ctx := get_context()
+	if ctx.cc != nil {
+        col := ctx.cc.current_style.color
+        sd.draw_line(x1, y1, x2, y2, col)
+    }
+}
 
 rect :: proc (x: f32, y: f32, w: f32, h: f32) {
 	ctx := get_context()
