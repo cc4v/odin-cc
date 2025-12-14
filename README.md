@@ -29,9 +29,11 @@ mmand.)
 
 
 ```bash
+$ export ODIN_ROOT="$(odin root)"
 $ git clone https://github.com/cc4v/odin-cc $ODIN_ROOT/shared/cc
 
-# NOTE: `$ODIN_ROOT` directory can be found by `odin root`
+# NOTE: `$ODIN_ROOT` directory can be found by `odin root`.
+#       You don't need first line if you copy it manually for example on Windows.
 ```
 
 ## Examples
