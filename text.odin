@@ -28,6 +28,7 @@ text :: proc (msg: string, x: f32, y: f32) {
 	}
 }
 
+@(private)
 draw_text :: proc (msg: string, x: f32, y: f32, cfg: types.TextCfg) {
 	ctx := get_context()
 	if ctx.cc != nil {

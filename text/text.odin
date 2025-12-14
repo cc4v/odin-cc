@@ -28,9 +28,8 @@ setup :: proc() {
 }
 
 init_frame :: proc() {
-    // sdtx.canvas(sapp.widthf() * 0.5, sapp.heightf() * 0.5)
     sdtx.canvas(sapp.widthf(), sapp.heightf())
-    sdtx.origin(0.0, 0.0)
+    // sdtx.origin(0.0, 0.0)
 }
 
 draw_text :: proc (x: f32, y: f32, msg: string, cfg: types.TextCfg) {
@@ -45,9 +44,8 @@ draw_text :: proc (x: f32, y: f32, msg: string, cfg: types.TextCfg) {
         cu.b,
         cu.a)
 
-    sdtx.pos(x, y)
+    sdtx.pos(x / 8.0, y / 8.0) // WORKAROUND
     sdtx.printf(msg)
 
-    // fmt.println("debug_text!!!")
-    // fmt.println("color: {}", cfg.color)
+    // fmt.println("color:", cfg.color)
 }
