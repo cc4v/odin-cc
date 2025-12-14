@@ -215,22 +215,33 @@ key_just_released :: proc(keycode: sapp.Keycode) -> bool {
 
 // TODO: fullscreen functions
 
-// pub fn is_fullscreen() bool {
-// 	return gg.is_fullscreen()
-// }
+is_fullscreen :: proc() -> bool {
+	return sapp.is_fullscreen()
+}
 
 toggle_fullscreen :: proc() {
 	sapp.toggle_fullscreen()
+
+	ctx := get_context()
+	if ctx != nil {
+		// ctx.cc.fullscreen = !ctx.cc.fullscreen
+	} else {
+		ctx.pref.fullscreen = !ctx.pref.fullscreen
+	}
 }
 
-// pub fn fullscreen() {
-// 	mut ctx := context()
-// 	if unsafe { ctx.cc != nil } {
-// 		gg.toggle_fullscreen()
-// 	}else{
-// 		ctx.pref.fullscreen = true
-// 	}
-// }
+fullscreen :: proc() {
+	ctx := get_context()
+	if ctx.cc != nil {
+		if !is_fullscreen() {
+			toggle_fullscreen()
+		}
+	}else{
+		ctx.pref.fullscreen = true
+	}
+}
+
+enter_fullscreen := fullscreen
 
 
 // TODO: screnn size functions

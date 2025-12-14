@@ -109,7 +109,7 @@ CC :: struct {
 	state:          ^CCState,
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
-	fullscreen:     bool,
+	// fullscreen:     bool,
 	// image_cache:    [dynamic]Image,
 	img_count : int,
 	window_title_cstr: cstring,
@@ -190,6 +190,11 @@ init :: proc "c" (_: rawptr) {
 
 	apply_style()
 
+	ctx := get_context()
+	if ctx.pref.fullscreen {
+		fullscreen()
+	}
+
 	if c.config.init_fn != nil {
 		fn := c.config.init_fn.(FnCb)
 		switch _ in fn {
@@ -261,7 +266,7 @@ frame :: proc "c" (_: rawptr) {
 			fn.(FnCb_WithNoPtr)()
 		}
 	}
-	
+
 	pop_style()
 	pop_matrix()
 	end()
@@ -556,8 +561,7 @@ setup :: proc (config: CCConfig) {
 	// set bg_color
 	state.pass_action.colors[0].clear_value = bg_color
 
-	// TODO: fullscreen treatment
-	c.fullscreen = ctx.pref.fullscreen
+	// c.fullscreen = ctx.pref.fullscreen
 
     // c.gg = gg.new_context(
 	// 	bg_color:      bg_color

@@ -47,6 +47,8 @@
 - scroll_y
 - width
 - height
+- fullscreen (enter_fullscreen)
+- is_fullscreen
 
 <!--
 - mouse_buttons
@@ -55,8 +57,7 @@
 <!--
 - screen_width
 - screen_height
-- fullscreen
-- is_fullscreen
+
 -->
 
 ## [Color](../color.odin)
