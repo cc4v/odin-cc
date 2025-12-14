@@ -110,6 +110,7 @@ CC :: struct {
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
 	fullscreen:     bool,
+	image_cache:    [dynamic]Image,
 	window_title_cstr: cstring,
 	width : int,
 	height : int,
