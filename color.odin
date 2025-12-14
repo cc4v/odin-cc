@@ -53,7 +53,7 @@ get_color :: proc() -> Color {
 	if ctx.cc != nil {
 		return ctx.cc.current_style.color
 	}else{
-        log.error("cc: failed to get color")
+        log.warn("cc: failed to get color")
 		return colors.white
 	}
 }

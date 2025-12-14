@@ -33,17 +33,30 @@
 - title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/window_title/main.odin))
 -->
 - title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/title/main.odin))
-<!--
 - mouse_x ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - mouse_y ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - mouse_dx
 - mouse_dy
-- mouse_buttons
 - mouse_button
 - mouse_pressed
 - mouse_released
 - mouse_just_pressed
 - mouse_just_released
+- key
+- key_pressed
+- key_released
+- key_just_pressed
+- key_just_released
+- scroll_x
+- scroll_y
+- width
+- height
+
+<!--
+- mouse_buttons
+-->
+
+<!--
 - key ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
 - key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
 - key_released
@@ -57,6 +70,7 @@
 - screen_height
 - fullscreen
 - is_fullscreen
+-->
 
 ## [Color](../color.v)
 
@@ -72,6 +86,8 @@
 - pop_matrix
 - push_style
 - pop_style
+
+<!--
 
 ## [Matrix](../matrix.v)
 
