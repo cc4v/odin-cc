@@ -1,7 +1,7 @@
 # odin-cc
 
 > [!WARNING]
-> ***WORK IN PROGRESS*** (Currently at very early stage. API design may change.)<br>
+> Currently at very early stage. API design may change.<br>
 > (see [docs/coverage.md](docs/coverage.md))
 
 Creative Coding framework on [Odin language](https://odin-lang.org/). Forked from [cc4v](https://github.com/cc4v/cc4v).
