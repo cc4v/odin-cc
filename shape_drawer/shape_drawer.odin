@@ -20,8 +20,8 @@ draw_rect_empty :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
 
     // TODO: line width
 
-    // WORKAROUND
-    // FIXME: too many draw calls?
+    // // WORKAROUND
+    // // FIXME: too many draw calls?
     // draw_quad(x,     y,     w, 1, col)
     // draw_quad(x,     y,     1, h, col)
     // draw_quad(x,     y + h, w, 1, col)
