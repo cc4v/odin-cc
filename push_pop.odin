@@ -52,7 +52,6 @@ pop_style :: proc () {
     ctx := get_context()
 	if ctx.cc != nil {
 		if stack_size(ctx.cc.style_history) > 0 {
-			// style := ctx.cc.style_history.pop() or { panic(err) }
             style, err := stack_pop(&ctx.cc.style_history)
             if err != false {
                 log.error("cc: failed to pop_style")
