@@ -28,11 +28,8 @@
 
 ## [Window](../window.odin)
 
-<!--
 - size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/window_title/main.odin))
-- title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/window_title/main.odin))
--->
-- title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/title/main.odin))
+- title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/title_random/main.odin))
 - mouse_x ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - mouse_y ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - mouse_dx
