@@ -102,14 +102,12 @@
 ## [Shape](../shape.odin)
 
 - rect ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
-
-<!--
-
-- rounded_rect
 - square
 - circle ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - line
 
+<!--
+- rounded_rect
 -->
 
 
