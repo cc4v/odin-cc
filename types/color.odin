@@ -2,14 +2,26 @@ package types
 
 import sg "shared:sokol/gfx"
 
-// Color :: struct {
-// 	r: u8,
-//     g: u8,
-//     b: u8,
-//     a: u8
-// }
+ColorU8 :: struct {
+	r: u8,
+    g: u8,
+    b: u8,
+    a: u8
+}
 
 Color :: #type sg.Color
+
+default_color :: proc() -> Color {
+    return Color {
+        a = 1.0
+    }
+}
+
+default_color_u8 :: proc() -> ColorU8 {
+    return ColorU8 {
+        a = u8(255)
+    }
+}
 
 color :: proc "contextless" (r: u8, g: u8, b: u8, a :u8 = 255) -> Color {
     return Color {

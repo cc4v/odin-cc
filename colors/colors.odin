@@ -6,6 +6,28 @@ package colors
 
 import types "../types"
 
+u8_color :: proc (c: types.Color) -> types.ColorU8 {
+    _255 := f32(255.0)
+
+    return types.ColorU8 {
+        u8(c.r * _255),
+        u8(c.g * _255),
+        u8(c.b * _255),
+        u8(c.a * _255),
+    }
+}
+
+f32_color :: proc (c: types.ColorU8) -> types.Color {
+    _255 := f32(255.0)
+
+    return types.Color {
+        f32(c.r) / _255,
+        f32(c.g) / _255,
+        f32(c.b) / _255,
+        f32(c.a) / _255,
+    }
+}
+
 black := types.color (0, 0, 0)
 white := types.color (255, 255, 255)
 red := types.color (255, 0, 0)

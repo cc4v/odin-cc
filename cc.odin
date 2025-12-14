@@ -18,8 +18,17 @@ import types "./types"
 
 Vector2 :: #type types.Vector2
 Vector3 :: #type types.Vector3
+
 Color :: #type types.Color
+ColorU8 :: #type types.ColorU8
+
+u8_color :: colors.u8_color
+f32_color :: colors.f32_color
+default_color :: types.default_color
+default_color_u8 :: types.default_color_u8
+
 TextCfg :: #type types.TextCfg
+default_textcfg :: types.default_textcfg
 
 
 Modifiers :: u32 // bit_set[Modifier]
@@ -69,7 +78,7 @@ CCStyle :: struct {
 default_style :: proc() -> CCStyle {
     return {
         color =             colors.black,
-        text_config =       {},
+        text_config =       default_textcfg(),
         fill = true,
         circle_resolution = 32,
         sphere_resolution = 32,
@@ -369,6 +378,7 @@ setup :: proc (config: CCConfig) {
 
     c = CC {
 		config = config,
+		current_style = default_style(),
 		state = &state
 	}
 
