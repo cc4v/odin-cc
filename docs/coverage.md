@@ -5,7 +5,7 @@
 - Processing style ([example1](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world/main.odin), [example2](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world2/main.odin))
 
 <!--
-- Processing style ([example](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world/main.odin), [example2](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world2/main.odin))
+
 - openFrameworks style ([example](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world3/main.odin))
 
 -->
