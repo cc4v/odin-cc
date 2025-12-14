@@ -30,6 +30,9 @@ default_color_u8 :: types.default_color_u8
 TextCfg :: #type types.TextCfg
 default_textcfg :: types.default_textcfg
 
+Event :: #type sapp.Event
+Keycode :: #type sapp.Keycode
+Mousebutton :: #type sapp.Mousebutton
 
 Modifiers :: u32 // bit_set[Modifier]
 
@@ -116,6 +119,8 @@ CC :: struct {
 	mouse_dy : f32,
 	scroll_x : f32,
 	scroll_y : f32,
+	last_modifiers:   Modifiers,
+	prev_modifiers:   Modifiers,
 	last_keycode:   sapp.Keycode,
 	prev_keycode:   sapp.Keycode,
 	last_keydown:   bool,
@@ -292,6 +297,7 @@ update_last_key :: proc (e: ^sapp.Event) {
 
 	if e.type == .KEY_DOWN || e.type == .KEY_UP {
 		c.last_keycode = e.key_code
+		c.last_modifiers = e.modifiers
 	}
 
 	if e.type == .MOUSE_DOWN || e.type == .MOUSE_UP {
@@ -300,18 +306,19 @@ update_last_key :: proc (e: ^sapp.Event) {
 }
 
 @(private)
-on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
+_on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 	context = runtime.default_context()
 
 	if event == nil {
 		return
 	}
 
-	update_last_key(event)
-
 	user_data := c.config.user_data
 	prev_mousedown : bool = c.last_mousedown
 	prev_keydown : bool = c.last_keydown
+	prev_mousebtn := c.last_mousebutton
+	prev_keycode := c.last_keycode
+	prev_modifiers := c.last_modifiers
 
 	if c.config.event_fn != nil {
 		fn := c.config.event_fn.(FnEvent)
@@ -323,7 +330,7 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		}
 	}
 
-	if event.type == .MOUSE_DOWN && !prev_mousedown {
+	if event.type == .MOUSE_DOWN && (!prev_mousedown || prev_mousebtn != event.mouse_button) {
 		if c.config.click_fn != nil {
 			x := event.mouse_x
 			y := event.mouse_y
@@ -339,7 +346,7 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		}
 	}
 
-	if event.type == .MOUSE_UP && prev_mousedown {
+	if event.type == .MOUSE_UP && (prev_mousedown || prev_mousebtn != event.mouse_button) {
 		if c.config.unclick_fn != nil {
 			x := event.mouse_x
 			y := event.mouse_y
@@ -386,7 +393,7 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		c.mouse_dy = 0 // WORKAROUND
 	}
 
-	if event.type == .KEY_DOWN && !prev_keydown {
+	if event.type == .KEY_DOWN && (!prev_keydown || prev_keycode != event.key_code || prev_modifiers != event.modifiers) {
 		if c.config.keydown_fn != nil {
 			modifiers := event.modifiers
 			keycode := event.key_code
@@ -401,7 +408,7 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		}
 	}
 
-	if event.type == .KEY_UP && prev_keydown {
+	if event.type == .KEY_UP && (prev_keydown || prev_keycode != event.key_code || prev_modifiers != event.modifiers) {
 		if c.config.keyup_fn != nil {
 			modifiers := event.modifiers
 			keycode := event.key_code
@@ -415,6 +422,8 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 			}
 		}
 	}
+
+	update_last_key(event)
 }
 
 data :: proc ($T: typeid) -> ^T {
@@ -585,11 +594,52 @@ setup :: proc (config: CCConfig) {
 		height =              i32(h),
 		init_userdata_cb =    init,
 		frame_userdata_cb =   frame,
-		event_userdata_cb =   on_event,
+		event_userdata_cb =   _on_event,
 		cleanup_userdata_cb = cleanup,
 		window_title =        c.window_title_cstr,
 	})
 }
+
+on_init :: proc(init_fn: FnCb) {
+    ctx := get_context()
+    ctx.pref.init_fn = init_fn
+}
+
+on_event :: proc(event_fn: FnEvent) {
+    ctx := get_context()
+    ctx.pref.event_fn = event_fn
+}
+
+on_exit :: proc(exit_fn: FnCb) {
+    ctx := get_context()
+    ctx.pref.cleanup_fn = exit_fn
+}
+
+on_key_pressed :: proc(keydown_fn: FnKeyDown) {
+    ctx := get_context()
+    ctx.pref.keydown_fn = keydown_fn
+}
+
+on_key_released :: proc(keyup_fn: FnKeyUp) {
+    ctx := get_context()
+    ctx.pref.keyup_fn = keyup_fn
+}
+
+on_mouse_pressed :: proc(click_fn: FnClick) {
+    ctx := get_context()
+    ctx.pref.click_fn = click_fn
+}
+
+on_mouse_released :: proc(unclick_fn: FnUnClick) {
+    ctx := get_context()
+    ctx.pref.unclick_fn = unclick_fn
+}
+
+on_mouse_moved :: proc(move_fn: FnMove) {
+    ctx := get_context()
+    ctx.pref.move_fn = move_fn
+}
+
 
 run :: proc (draw_fn: DrawFn) {
 	setup({
