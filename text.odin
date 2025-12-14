@@ -17,7 +17,6 @@ text_size :: proc (size: int) {
 	ctx := get_context()
 	if ctx.cc != nil {
 		ctx.cc.current_style.text_config.size = size
-
 		// ctx.cc.apply_style()
 	}
 }
