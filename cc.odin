@@ -269,6 +269,8 @@ frame :: proc "c" (_: rawptr) {
 	end()
 
 	update_prev_key()
+
+	free_all(context.temp_allocator)
 }
 
 @(private)
