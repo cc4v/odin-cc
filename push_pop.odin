@@ -41,7 +41,7 @@ push_style :: proc () {
     if ctx.cc != nil {
         err := stack_push(&ctx.cc.style_history, ctx.cc.current_style)
         if err == true {
-            log.warn("cc: push_style() maximum number of style pushes", cc_max_style_history, "reached, did you forget to pop somewhere?")
+            log.warn("cc: push_style() maximum number of style pushes (", cc_max_style_history, ") reached, did you forget to pop somewhere?")
         }
     }
 }
