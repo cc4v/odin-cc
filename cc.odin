@@ -108,6 +108,14 @@ CC :: struct {
 	style_history:  Stack(CCStyle, cc_max_style_history),
 	fullscreen:     bool,
 	window_title_cstr: cstring,
+	width : int,
+	height : int,
+	mouse_x : f32,
+	mouse_y : f32,
+	mouse_dx : f32,
+	mouse_dy : f32,
+	scroll_x : f32,
+	scroll_y : f32,
 	last_keycode:   sapp.Keycode,
 	prev_keycode:   sapp.Keycode,
 	last_keydown:   bool,
@@ -211,8 +219,21 @@ end :: proc () {
 }
 
 @(private)
+prev_width : int
+@(private)
+prev_height : int
+
+@(private)
 frame :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
+
+	// TODO: resized_fn callback
+	if c.width != prev_width || c.height != prev_height {
+		// TODO: resize window
+	}
+
+	prev_width = c.width
+	prev_height = c.height
 
 	if c.config.update_fn != nil {
 		fn := c.config.update_fn.(FnCb)
@@ -334,7 +355,20 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		}
 	}
 
+	if event.type == .MOUSE_SCROLL {
+		c.scroll_x = event.scroll_x
+		c.scroll_y = event.scroll_y
+	}else{
+		c.scroll_x = 0 // WORKAROUND
+		c.scroll_y = 0 // WORKAROUND
+	}
+
 	if event.type == .MOUSE_MOVE {
+		c.mouse_x = event.mouse_x
+		c.mouse_y = event.mouse_y
+		c.mouse_dx = event.mouse_dx
+		c.mouse_dy = event.mouse_dy
+
 		if c.config.move_fn != nil {
 			x := event.mouse_x
 			y := event.mouse_y
@@ -347,6 +381,9 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 				fn.(FnMove_WithNoPtr)(x, y)
 			}
 		}
+	}else{
+		c.mouse_dx = 0 // WORKAROUND
+		c.mouse_dy = 0 // WORKAROUND
 	}
 
 	if event.type == .KEY_DOWN && !prev_keydown {
@@ -533,6 +570,11 @@ setup :: proc (config: CCConfig) {
 	// )
 
 	c.window_title_cstr = strings.clone_to_cstring(ctx.pref.title)
+
+	prev_width = w
+	prev_height = h
+	c.width = w
+	c.height = h
 
     ctx.cc = &c
     // c.gg.run()
