@@ -4,7 +4,7 @@
 > ***WORK IN PROGRESS*** (Currently at very early stage. API design may change.)<br>
 > (see [docs/coverage.md](docs/coverage.md))
 
-creative coding framework on Odin language. Forked from [cc4v](https://github.com/cc4v/cc4v).
+Creative coding framework on Odin language. Forked from [cc4v](https://github.com/cc4v/cc4v).
 
 Aiming to provide APIs like [openFrameworks](https://openframeworks.cc/documentation/) or [Processing](https://processing.org/reference) on sokol, kind of like V / [gg](https://modules.vlang.io/gg.html) and [cc4v](https://github.com/cc4v/cc4v), with a little essence of [Ebitengine](https://ebitengine.org/). (Please check [docs/api_design.md](docs/api_design.md))
 
