@@ -219,9 +219,9 @@ key_just_released :: proc(keycode: sapp.Keycode) -> bool {
 // 	return gg.is_fullscreen()
 // }
 
-// pub fn toggle_fullscreen() {
-// 	gg.toggle_fullscreen()
-// }
+toggle_fullscreen :: proc() {
+	sapp.toggle_fullscreen()
+}
 
 // pub fn fullscreen() {
 // 	mut ctx := context()
