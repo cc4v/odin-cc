@@ -203,14 +203,6 @@ init :: proc "c" (_: rawptr) {
 begin :: proc () {
     dw := sapp.width()
     dh := sapp.height()
-    // ww := dh / 2 // not a bug
-    // hh := dh / 2
-    // x0 := dw / 2 - hh
-    // x1 := dw / 2
-    // y0 := 0
-    // y1 := dh / 2
-
-	// sgl.viewport(x0, y0, ww, hh, true)
 	sgl.viewport(0, 0, dw, dh, true)
 }
 
