@@ -12,19 +12,18 @@
 
 - g ([example](https://github.com/cc4v/odin-cc-examples/blob/main/gg/main.odin))
 
+-->
+
 ## Function Callbacks (for Processing style)
 
 - on_init ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_event ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_exit ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
-- on_key_pressed
+- on_key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_key_released
-- on_mouse_pressed
+- on_mouse_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_mouse_released
 - on_mouse_moved
-
--->
-
 
 ## [Window](../window.odin)
 
