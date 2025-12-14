@@ -640,9 +640,17 @@ on_mouse_moved :: proc(move_fn: FnMove) {
     ctx.pref.move_fn = move_fn
 }
 
+run_with_data :: proc (draw_fn: DrawFn, user_data: rawptr) {
+	setup({
+		draw_fn = draw_fn,
+		user_data = rawptr(user_data)
+	})
+}
 
 run :: proc (draw_fn: DrawFn) {
 	setup({
 		draw_fn = draw_fn
     })
 }
+
+// TODO?: run_app, run_app_new / maybe unneeded because of Odin's syntax and philosophy
