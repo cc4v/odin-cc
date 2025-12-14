@@ -6,7 +6,7 @@
 
 Creative Coding framework on Odin language. Forked from [cc4v](https://github.com/cc4v/cc4v).
 
-Aiming to provide APIs like [openFrameworks](https://openframeworks.cc/documentation/) or [Processing](https://processing.org/reference) on sokol, kind of like V / [gg](https://modules.vlang.io/gg.html) and [cc4v](https://github.com/cc4v/cc4v), with a little essence of [Ebitengine](https://ebitengine.org/). (Please check [docs/api_design.md](docs/api_design.md))
+Aiming to provide APIs like [openFrameworks](https://openframeworks.cc/documentation/) or [Processing](https://processing.org/reference) on [Sokol](https://github.com/floooh/sokol) ([sokol-odin](https://github.com/floooh/sokol-odin/)), kind of like V / [gg](https://modules.vlang.io/gg.html) and [cc4v](https://github.com/cc4v/cc4v), with a little essence of [Ebitengine](https://ebitengine.org/). (Please check [docs/api_design.md](docs/api_design.md))
 
 Tested on Odin dev-2025-12-nightly
 
