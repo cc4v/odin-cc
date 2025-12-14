@@ -5,6 +5,7 @@
 package shape_drawer
 
 // import "core:fmt"
+import "core:math"
 import types "../types"
 import colors "../colors"
 import sgl "shared:sokol/gl"
@@ -39,10 +40,6 @@ draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
     // fmt.println("color", col)
 
     c := colors.u8_color(col)
-    r := c.r
-    g := c.g
-    b := c.b
-    a := c.a
 
     // FIXME: need optimization? SIMD or something
     px1 := util.mapf(x1, 0, ww, -1, 1)
@@ -52,8 +49,9 @@ draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
 
     sgl.defaults()
     sgl.begin_lines()
-    sgl.v2f_c4b(px1, py1, r, g, b, a)
-    sgl.v2f_c4b(px2, py2, r, g, b, a)
+    sgl.c4b(c.r, c.g, c.b, c.a)
+    sgl.v2f(px1, py1)
+    sgl.v2f(px2, py2)
     sgl.end()
 }
 
@@ -65,10 +63,6 @@ draw_quad :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     // fmt.println("color", col)
 
     c := colors.u8_color(col)
-    r := c.r
-    g := c.g
-    b := c.b
-    a := c.a
 
     // FIXME: need optimization? SIMD or something
     x0 := util.mapf(x, 0, ww, -1, 1)
@@ -82,9 +76,74 @@ draw_quad :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
 
     sgl.defaults()
     sgl.begin_quads()
-    sgl.v2f_c4b(x0, y0, r, g, b, a)
-    sgl.v2f_c4b(x1, y0, r, g, b, a)
-    sgl.v2f_c4b(x1, y1, r, g, b, a)
-    sgl.v2f_c4b(x0, y1, r, g, b, a)
+    sgl.c4b(c.r, c.g, c.b, c.a)
+    sgl.v2f(x0, y0)
+    sgl.v2f(x1, y0)
+    sgl.v2f(x1, y1)
+    sgl.v2f(x0, y1)
     sgl.end()
+}
+
+draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segments: int) {
+    ww := sapp.widthf()
+    wh := sapp.heightf()
+
+    // fmt.println("color", col)
+
+    c := colors.u8_color(col)
+
+    x0 := util.mapf(x, 0, ww, -1, 1)
+    y0 := util.mapf(y, 0, wh, 1, -1)
+    rw := abs(util.mapf(radius, 0, ww, -1, 1))
+    rh := abs(util.mapf(radius, 0, wh, -1, 1))
+
+	nx := x0
+	ny := y0
+	theta := f32(0)
+	xx := f32(0)
+	yy := f32(0)
+
+    sgl.defaults()
+    sgl.begin_triangle_strip()
+    sgl.c4b(c.r, c.g, c.b, c.a)
+	for i := 0; i < segments + 1; i += 1 {
+		theta = f32(math.TAU) * f32(i) / f32(segments)
+		xx = rw * math.cos(theta)
+		yy = rh * math.sin(theta)
+		sgl.v2f(xx + nx, yy + ny)
+		sgl.v2f(nx, ny)
+	}
+	sgl.end()
+}
+
+draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segments: int) {
+    ww := sapp.widthf()
+    wh := sapp.heightf()
+    c := colors.u8_color(col)
+
+    x0 := util.mapf(x, 0, ww, -1, 1)
+    y0 := util.mapf(y, 0, wh, 1, -1)
+    rw := abs(util.mapf(radius, 0, ww, -1, 1))
+    rh := abs(util.mapf(radius, 0, wh, -1, 1))
+
+	nx := x0
+	ny := y0
+	theta := f32(0)
+	xx := f32(0)
+	yy := f32(0)
+
+    // fmt.println("x0, y0", x0, y0)
+    // fmt.println("rw, rh", rw, rh)
+
+    sgl.defaults()
+	sgl.begin_line_strip()
+    sgl.c4b(c.r, c.g, c.b, c.a)
+	for i := 0; i < segments + 1; i += 1 {
+		theta = f32(math.TAU) * f32(i) / f32(segments)
+		xx = rw * math.cos(theta)
+		yy = rh * math.sin(theta)
+		sgl.v2f(xx + nx, yy + ny)
+        // fmt.println("v2f:", xx + nx, yy + ny)
+	}
+	sgl.end()
 }

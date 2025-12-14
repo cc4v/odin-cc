@@ -25,3 +25,22 @@ rect :: proc (x: f32, y: f32, w: f32, h: f32) {
 		}
 	}
 }
+
+square :: proc (x: f32, y: f32, s: f32) {
+    w := s
+    h := s
+    rect(x, y, s, s)
+}
+
+circle :: proc (x: f32, y: f32, radius: f32) {
+	ctx := get_context()
+	if ctx.cc != nil {
+		col := ctx.cc.current_style.color
+		segments := ctx.cc.current_style.circle_resolution
+		if ctx.cc.current_style.fill {
+			sd.draw_circle_filled(x, y, radius, col, segments)
+		} else {
+			sd.draw_circle_empty(x, y, radius, col, segments)
+		}
+	}
+}
