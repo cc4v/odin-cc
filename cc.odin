@@ -249,6 +249,9 @@ frame :: proc "c" (_: rawptr) {
 	begin()
 	push_matrix()
 	push_style()
+
+	sgl.defaults()
+
 	if c.config.draw_fn != nil {
 		fn := c.config.draw_fn.(FnCb)
 		switch _ in fn {
@@ -258,6 +261,7 @@ frame :: proc "c" (_: rawptr) {
 			fn.(FnCb_WithNoPtr)()
 		}
 	}
+	
 	pop_style()
 	pop_matrix()
 	end()

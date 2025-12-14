@@ -79,6 +79,9 @@
 - scale
 - translate
 - rotate
+- rotate_z
+- rotate_deg
+- rotate_z_deg
 - rad
 - deg
 

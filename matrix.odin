@@ -18,6 +18,18 @@ rotate :: proc(angle_rad: f32, x: f32, y: f32, z: f32) {
     sgl.rotate(angle_rad, x, y, z)
 }
 
+rotate_deg :: proc(angle_deg: f32, x: f32, y: f32, z: f32) {
+    sgl.rotate(rad(angle_deg), x, y, z)
+}
+
+rotate_z ::  proc(angle_rad: f32) {
+    sgl.rotate(angle_rad, 0, 0, 1)
+}
+
+rotate_z_deg ::  proc(angle_deg: f32) {
+    sgl.rotate(rad(angle_deg), 0, 0, 1)
+}
+
 rad :: proc(deg: f32) -> f32 {
     return sgl.rad(deg)
 }

@@ -47,7 +47,7 @@ draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
     px2 := util.mapf(x2, 0, ww, -1, 1)
     py2 := util.mapf(y2, 0, wh, 1, -1)
 
-    sgl.defaults()
+    // sgl.defaults()
     sgl.begin_lines()
     sgl.c4b(c.r, c.g, c.b, c.a)
     sgl.v2f(px1, py1)
@@ -74,7 +74,7 @@ draw_quad :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     // fmt.println("ww, wh", ww, wh)
     // fmt.println("x0 y0 x1 y1", x0, y0, x1, x1)
 
-    sgl.defaults()
+    // sgl.defaults()
     sgl.begin_quads()
     sgl.c4b(c.r, c.g, c.b, c.a)
     sgl.v2f(x0, y0)
@@ -103,7 +103,7 @@ draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segme
 	xx := f32(0)
 	yy := f32(0)
 
-    sgl.defaults()
+    // sgl.defaults()
     sgl.begin_triangle_strip()
     sgl.c4b(c.r, c.g, c.b, c.a)
 	for i := 0; i < segments + 1; i += 1 {
@@ -135,7 +135,7 @@ draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segmen
     // fmt.println("x0, y0", x0, y0)
     // fmt.println("rw, rh", rw, rh)
 
-    sgl.defaults()
+    // sgl.defaults()
 	sgl.begin_line_strip()
     sgl.c4b(c.r, c.g, c.b, c.a)
 	for i := 0; i < segments + 1; i += 1 {
