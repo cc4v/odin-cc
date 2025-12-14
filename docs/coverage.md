@@ -14,9 +14,9 @@
 
 ## Function Callbacks (for Processing style)
 
-- on_init ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/callbacks/main.odin))
-- on_event ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/callbacks/main.odin))
-- on_exit ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/callbacks/main.odin))
+- on_init ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
+- on_event ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
+- on_exit ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_key_pressed
 - on_key_released
 - on_mouse_pressed
@@ -25,10 +25,10 @@
 
 ## [Window](../window.v)
 
-- size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/window_title/main.odin))
-- title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/window_title/main.odin))
-- mouse_x ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/circle/main.odin))
-- mouse_y ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/circle/main.odin))
+- size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/window_title/main.odin))
+- title ([example](https://github.com/cc4v/odin-cc-examples/blob/main/window_title/main.odin))
+- mouse_x ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
+- mouse_y ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - mouse_dx
 - mouse_dy
 - mouse_buttons
@@ -37,10 +37,10 @@
 - mouse_released
 - mouse_just_pressed
 - mouse_just_released
-- key ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/key_pressed/main.odin))
-- key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/key_pressed/main.odin))
+- key ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
+- key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_pressed/main.odin))
 - key_released
-- key_just_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/key_just_pressed/main.odin))
+- key_just_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/key_just_pressed/main.odin))
 - key_just_released
 - scroll_x
 - scroll_y
@@ -54,10 +54,10 @@
 ## [Color](../color.v)
 
 - background
-- set_color ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/color_rect/main.odin))
+- set_color ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
 - get_color
-- fill ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/color_rect/main.odin))
-- no_fill ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/color_rect/main.odin))
+- fill ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
+- no_fill ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
 
 ## [Push/Pop](../push_pop.v)
 
@@ -76,10 +76,10 @@
 
 ## [Shape](../shape.v)
 
-- rect ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/color_rect/main.odin))
+- rect ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
 - rounded_rect
 - square
-- circle ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/circle/main.odin))
+- circle ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - line
 
 -->
@@ -87,19 +87,19 @@
 
 ## [Text](../text.odin)
 
-- text ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/color_text/main.odin))
+- text ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_text/main.odin))
 
 <!--
-- text_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/color_text/main.odin))
+- text_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_text/main.odin))
 -->
 
 <!--
 
 ## [Image](../image.v)
 
-- load_image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/image/main.odin))
-- image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/image/main.odin))
-- image_with_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/tests/image/main.odin))
+- load_image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
+- image ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
+- image_with_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/image/main.odin))
 - image_3d
 - image_3d_with_size
 - 
