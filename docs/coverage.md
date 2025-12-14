@@ -74,9 +74,14 @@
 - rad
 - deg
 
+-->
+
 ## [Shape](../shape.v)
 
 - rect ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_rect/main.odin))
+
+<!--
+
 - rounded_rect
 - square
 - circle ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
@@ -88,10 +93,7 @@
 ## [Text](../text.odin)
 
 - text ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_text/main.odin))
-
-<!--
 - text_size ([example](https://github.com/cc4v/odin-cc-examples/blob/main/color_text/main.odin))
--->
 
 <!--
 
