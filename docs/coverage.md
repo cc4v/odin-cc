@@ -74,8 +74,6 @@
 - push_style
 - pop_style
 
-<!--
-
 ## [Matrix](../matrix.odin)
 
 - scale
@@ -83,8 +81,6 @@
 - rotate
 - rad
 - deg
-
--->
 
 ## [Shape](../shape.odin)
 
