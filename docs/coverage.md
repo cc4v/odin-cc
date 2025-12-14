@@ -20,10 +20,10 @@
 - on_event ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_exit ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_key_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
-- on_key_released
+- on_key_released ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 - on_mouse_pressed ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
-- on_mouse_released
-- on_mouse_moved
+- on_mouse_released ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
+- on_mouse_moved ([example](https://github.com/cc4v/odin-cc-examples/blob/main/callbacks/main.odin))
 
 ## [Window](../window.odin)
 
