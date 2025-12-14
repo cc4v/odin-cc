@@ -107,6 +107,7 @@ CC :: struct {
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
 	fullscreen:     bool,
+	window_title_cstr: cstring,
 	last_keycode:   sapp.Keycode,
 	prev_keycode:   sapp.Keycode,
 	last_keydown:   bool,
@@ -444,9 +445,6 @@ cleanup :: proc "c" (_: rawptr) {
 }
 
 @(private)
-title_cstr : cstring
-
-@(private)
 setup :: proc (config: CCConfig) {
     ctx := ctx()
 
@@ -534,10 +532,11 @@ setup :: proc (config: CCConfig) {
 	// 	fullscreen:    ctx.pref.fullscreen
 	// )
 
+	c.window_title_cstr = strings.clone_to_cstring(ctx.pref.title)
+
     ctx.cc = &c
     // c.gg.run()
 
-	title_cstr = strings.clone_to_cstring(ctx.pref.title)
 
 	sapp.run({
 		width =               i32(w),
@@ -546,7 +545,7 @@ setup :: proc (config: CCConfig) {
 		frame_userdata_cb =   frame,
 		event_userdata_cb =   on_event,
 		cleanup_userdata_cb = cleanup,
-		window_title =        title_cstr,
+		window_title =        c.window_title_cstr,
 	})
 }
 

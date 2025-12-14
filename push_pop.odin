@@ -22,13 +22,15 @@ pop_matrix :: proc() {
 	sgl.pop_matrix()
 }
 
+@(private)
 apply_style :: proc() {
 	style := &c.current_style
     style.text_config.color = style.color
 }
 
-set_style :: proc (style: ^CCStyle) {
-	c.current_style = style^
+@(private)
+set_style :: proc (style: CCStyle) {
+	c.current_style = style
 	apply_style()
 }
 
@@ -55,7 +57,7 @@ pop_style :: proc () {
             if err != false {
                 log.error("cc: failed to pop_style")
             }else{
-			    set_style(&style.(CCStyle))
+			    set_style(style.(CCStyle))
             }
 		}
 	}
