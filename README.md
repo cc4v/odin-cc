@@ -25,8 +25,7 @@ mmand.)
 > And more, you may need additional instructions for `stb` library use.<br>
 > Instructions are shown if you have error, by Odin language compiler itself while using as normal.
 
-## Install
-
+## Install odin-cc (as a odin shared module)
 
 ```bash
 $ export ODIN_ROOT="$(odin root)"
