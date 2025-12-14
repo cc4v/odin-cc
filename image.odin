@@ -9,7 +9,12 @@ import "core:log"
 import "core:os"
 import "core:strings"
 
+import colors "./colors"
+import util "./util"
+
 import sg "shared:sokol/gfx"
+import sgl "shared:sokol/gl"
+import sapp "shared:sokol/app"
 import stbi "vendor:stb/image"
 
 Image :: struct {
@@ -23,6 +28,7 @@ Image :: struct {
 	simg_ok:     bool,
 	simg:        sg.Image,
 	ssmp:        sg.Sampler,
+	sview:       sg.View,
 	path:        string
 }
 
@@ -67,6 +73,8 @@ load_image :: proc(path_str: string) -> (Image, bool) {
 
 		stb_img_data := stbi.load(cstr_path, &width, &height, &nr_channels, 4)
         if stb_img_data != nil {
+			ctx.cc.img_count += 1
+
             img := Image{
                 width =       int(width),
                 height =      int(height),
@@ -75,9 +83,10 @@ load_image :: proc(path_str: string) -> (Image, bool) {
                 data =        stb_img_data,
                 ext =         ext,
                 path =        path,
-                id =          len(ctx.cc.image_cache)
+                // id =          len(ctx.cc.image_cache)
+				id =          ctx.cc.img_count
             }
-            append(&ctx.cc.image_cache, img)
+            // append(&ctx.cc.image_cache, img)
             init_sokol_image(&img)
             return img, false
         }else{
@@ -115,7 +124,7 @@ init_sokol_image :: proc(img: ^Image) {
 		d3d11_texture = nil
 	}
 
-    fmt.println(img_desc)
+    // fmt.println(img_desc)
 
 	// NOTE the following code, sometimes, result in hard-to-detect visual errors/bugs:
 	// img_size := usize(img.nr_channels * img.width * img.height)
@@ -129,10 +138,10 @@ init_sokol_image :: proc(img: ^Image) {
 	// but the current sokol_gl context setup expects 4. It *should* be the same with
 	// all other stbi supported formats.
 	img_size := uint(4 * img.width * img.height)
-	// img_desc.data.subimage[0][0] = sg.Range{
-	// 	ptr  = img.data,
-	// 	size = img_size
-	// }
+	img_desc.data.mip_levels[0] = sg.Range{
+		ptr  = img.data,
+		size = img_size
+	}
 	img.simg = sg.make_image(img_desc)
 
 	smp_desc := sg.Sampler_Desc{
@@ -146,6 +155,8 @@ init_sokol_image :: proc(img: ^Image) {
 
 	img.ssmp = sg.make_sampler(smp_desc)
 
+	img.sview = sg.make_view({ texture = { image = img.simg } })
+
     // fmt.println("simg_ok")
 
 	img.simg_ok = true
@@ -156,9 +167,57 @@ init_sokol_image :: proc(img: ^Image) {
 // draw image
 
 image :: proc(img: ^Image, x: f32, y: f32) {
-    // TODO: Implement
+	ctx := get_context()
+	if ctx.cc != nil {
+		if img != nil && img.ok && img.simg_ok {
+			image_with_size(img, x, y, f32(img.width), f32(img.height))
+		}
+	}
 }
 
 image_with_size:: proc(img: ^Image, x: f32, y: f32, w: f32, h: f32) {
-    // TODO: Implement
+	ctx := get_context()
+	if ctx.cc != nil {
+		if img != nil && img.ok && img.simg_ok {
+			// TODO: should load alpha pipeline if alpha blending is needed
+
+			color := colors.white
+			// color := ctx.cc.current_style.color
+			// color := colors.red
+
+			c := colors.u8_color(color)
+
+			// fmt.println("color", c)
+
+			ww := sapp.widthf()
+   			wh := sapp.heightf()
+
+			u0f := f32(0)
+			v0f := f32(0)
+			u1f := f32(1)
+			v1f := f32(1)
+
+			px0 := util.mapf(x, 0, ww, -1, 1)
+			py0 := util.mapf(y, 0, wh, 1, -1)
+			px1 := util.mapf(x + w, 0, ww, -1, 1)
+			py1 := util.mapf(y + h, 0, wh, 1, -1)
+
+			// fmt.println("ww, wh", ww, wh)
+			// fmt.println(x, y, w, h)
+			// fmt.println(px0, py0, px1, py1)
+
+			sgl.defaults()
+			sgl.enable_texture()
+			sgl.texture(img.sview, img.ssmp)
+			sgl.begin_quads()
+			sgl.c4b(c.r, c.g, c.b, c.a)
+			sgl.v2f_t2f(px0, py0, u0f, v0f)
+			sgl.v2f_t2f(px1, py0, u1f, v0f)
+			sgl.v2f_t2f(px1, py1, u1f, v1f)
+			sgl.v2f_t2f(px0, py1, u0f, v1f)
+			sgl.end()
+
+			sgl.disable_texture()
+		}
+	}
 }
