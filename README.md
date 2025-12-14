@@ -21,13 +21,18 @@ odin-cc assumes `import "shared:sokol"` works. So you need:
 - then, copy `sokol` folder in it into `$ODIN_ROOT/shared/sokol` (`$ODIN_ROOT` can be found from `odin root` co
 mmand.)
 
-## Install
-
 > [!NOTE]
-> `$ODIN_ROOT` directory can be found by `odin root`
+> And more, you may need additional instructions for `stb` library use.<br>
+> Instructions are shown if you have error, by Odin language compiler itself while using as normal.
+
+## Install odin-cc (as a odin shared module)
 
 ```bash
+$ export ODIN_ROOT="$(odin root)"
 $ git clone https://github.com/cc4v/odin-cc $ODIN_ROOT/shared/cc
+
+# NOTE: `$ODIN_ROOT` directory can be found by `odin root`.
+#       You don't need first line if you copy it manually for example on Windows.
 ```
 
 ## Examples
