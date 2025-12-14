@@ -45,7 +45,7 @@ draw_text :: proc (x: f32, y: f32, msg: string, cfg: types.TextCfg) {
         cu.b,
         cu.a)
 
-    sdtx.move(x, y)
+    sdtx.pos(x, y)
     sdtx.printf(msg)
 
     // fmt.println("debug_text!!!")
