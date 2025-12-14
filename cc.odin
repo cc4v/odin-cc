@@ -43,26 +43,41 @@ Modifier :: enum u16 {
     MMB = 1024
 }
 
-FNCb :: #type proc(rawptr)
-FNEvent :: #type proc(^sapp.Event, rawptr)
-FNKeyDown :: #type proc(sapp.Keycode, Modifiers, rawptr)
-FNKeyUp :: #type proc(sapp.Keycode, Modifiers, rawptr)
-FNClick :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
-FNUnClick :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
-FNMove :: #type proc(f32, f32, rawptr)
-DrawFn :: #type FNCb
+FnCb_WithPtr :: #type proc(rawptr)
+FnCb_WithNoPtr :: #type proc()
+FnCb :: union { FnCb_WithPtr, FnCb_WithNoPtr}
+FnEvent_WithPtr :: #type proc(^sapp.Event, rawptr)
+FnEvent_WithNoPtr :: #type proc(^sapp.Event)
+FnEvent :: union { FnEvent_WithPtr, FnEvent_WithNoPtr}
+FnKeyDown_WithPtr :: #type proc(sapp.Keycode, Modifiers, rawptr)
+FnKeyDown_WithNoPtr :: #type proc(sapp.Keycode, Modifiers)
+FnKeyDown :: union { FnKeyDown_WithPtr, FnKeyDown_WithNoPtr }
+FnKeyUp_WithPtr :: #type proc(sapp.Keycode, Modifiers, rawptr)
+FnKeyUp_WithNoPtr :: #type proc(sapp.Keycode, Modifiers)
+FnKeyUp :: union { FnKeyUp_WithPtr, FnKeyUp_WithNoPtr }
+FnClick_WithPtr  :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
+FnClick_WithNoPtr  :: #type proc(f32, f32, sapp.Mousebutton)
+FnClick :: union { FnClick_WithPtr, FnClick_WithNoPtr }
+FnUnClick_WithPtr :: #type proc(f32, f32, sapp.Mousebutton, rawptr)
+FnUnClick_WithNoPtr :: #type proc(f32, f32, sapp.Mousebutton)
+FnUnClick :: union { FnUnClick_WithPtr, FnUnClick_WithNoPtr }
+FnMove_WithPtr :: #type proc(f32, f32, rawptr)
+FnMove_WithNoPtr :: #type proc(f32, f32)
+FnMove :: union { FnMove_WithPtr, FnMove_WithNoPtr }
+
+DrawFn :: #type FnCb
 
 CCConfig :: struct  {
-	init_fn:      Maybe(FNCb),
-	update_fn:    Maybe(FNCb),
-	draw_fn:      Maybe(FNCb),
-	cleanup_fn:   Maybe(FNCb),
-	event_fn:     Maybe(FNEvent),
-	keydown_fn:   Maybe(FNKeyDown),
-	keyup_fn:     Maybe(FNKeyUp),
-	click_fn:     Maybe(FNClick),
-	unclick_fn:   Maybe(FNUnClick),
-	move_fn:      Maybe(FNMove),
+	init_fn:      Maybe(FnCb),
+	update_fn:    Maybe(FnCb),
+	draw_fn:      Maybe(FnCb),
+	cleanup_fn:   Maybe(FnCb),
+	event_fn:     Maybe(FnEvent),
+	keydown_fn:   Maybe(FnKeyDown),
+	keyup_fn:     Maybe(FnKeyUp),
+	click_fn:     Maybe(FnClick),
+	unclick_fn:   Maybe(FnUnClick),
+	move_fn:      Maybe(FnMove),
 	user_data:    rawptr
 }
 
@@ -104,14 +119,14 @@ CC :: struct {
 
 InitialPreference :: struct {
     size:         Maybe(Vector2(int)),
-	init_fn:      Maybe(FNCb),
-	cleanup_fn:   Maybe(FNCb),
-	event_fn:     Maybe(FNEvent),
-	keydown_fn:   Maybe(FNKeyDown),
-	keyup_fn:     Maybe(FNKeyUp),
-	click_fn:     Maybe(FNClick),
-	unclick_fn:   Maybe(FNUnClick),
-	move_fn:      Maybe(FNMove),
+	init_fn:      Maybe(FnCb),
+	cleanup_fn:   Maybe(FnCb),
+	event_fn:     Maybe(FnEvent),
+	keydown_fn:   Maybe(FnKeyDown),
+	keyup_fn:     Maybe(FnKeyUp),
+	click_fn:     Maybe(FnClick),
+	unclick_fn:   Maybe(FnUnClick),
+	move_fn:      Maybe(FnMove),
 	bg_color:     Maybe(Color),
 	title:        string, // = "Canvas"
 	fullscreen:   bool,
@@ -160,7 +175,13 @@ init :: proc "c" (_: rawptr) {
 	apply_style()
 
 	if c.config.init_fn != nil {
-		c.config.init_fn.(FNCb)(c.config.user_data)
+		fn := c.config.init_fn.(FnCb)
+		switch _ in fn {
+		case FnCb_WithPtr:
+			fn.(FnCb_WithPtr)(c.config.user_data)
+		case FnCb_WithNoPtr:
+			fn.(FnCb_WithNoPtr)()
+		}
 	}
 }
 
@@ -195,7 +216,13 @@ frame :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
 	if c.config.update_fn != nil {
-		c.config.update_fn.(FNCb)(c.config.user_data)
+		fn := c.config.update_fn.(FnCb)
+		switch _ in fn {
+		case FnCb_WithPtr:
+			fn.(FnCb_WithPtr)(c.config.user_data)
+		case FnCb_WithNoPtr:
+			fn.(FnCb_WithNoPtr)()
+		}
 	}
 
 	text_init_frame()
@@ -204,7 +231,13 @@ frame :: proc "c" (_: rawptr) {
 	push_matrix()
 	push_style()
 	if c.config.draw_fn != nil {
-		c.config.draw_fn.(FNCb)(c.config.user_data)
+		fn := c.config.draw_fn.(FnCb)
+		switch _ in fn {
+		case FnCb_WithPtr:
+			fn.(FnCb_WithPtr)(c.config.user_data)
+		case FnCb_WithNoPtr:
+			fn.(FnCb_WithNoPtr)()
+		}
 	}
 	pop_style()
 	pop_matrix()
@@ -261,7 +294,13 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 	prev_keydown : bool = c.last_keydown
 
 	if c.config.event_fn != nil {
-		c.config.event_fn.(FNEvent)(event, user_data)
+		fn := c.config.event_fn.(FnEvent)
+		switch _ in fn {
+		case FnEvent_WithPtr:
+			fn.(FnEvent_WithPtr)(event, c.config.user_data)
+		case FnEvent_WithNoPtr:
+			fn.(FnEvent_WithNoPtr)(event)
+		}
 	}
 
 	if event.type == .MOUSE_DOWN && !prev_mousedown {
@@ -269,7 +308,14 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 			x := event.mouse_x
 			y := event.mouse_y
 			btn := event.mouse_button
-			c.config.click_fn.(FNClick)(x, y, btn, user_data)
+
+			fn := c.config.click_fn.(FnClick)
+			switch _ in fn {
+			case FnClick_WithPtr:
+				fn.(FnClick_WithPtr)(x, y, btn, c.config.user_data)
+			case FnClick_WithNoPtr:
+				fn.(FnClick_WithNoPtr)(x, y, btn)
+			}
 		}
 	}
 
@@ -278,7 +324,14 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 			x := event.mouse_x
 			y := event.mouse_y
 			btn := event.mouse_button
-			c.config.unclick_fn.(FNUnClick)(x, y, btn, user_data)
+
+			fn := c.config.unclick_fn.(FnUnClick)
+			switch _ in fn {
+			case FnUnClick_WithPtr:
+				fn.(FnUnClick_WithPtr)(x, y, btn, c.config.user_data)
+			case FnUnClick_WithNoPtr:
+				fn.(FnUnClick_WithNoPtr)(x, y, btn)
+			}
 		}
 	}
 
@@ -286,7 +339,14 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		if c.config.move_fn != nil {
 			x := event.mouse_x
 			y := event.mouse_y
-			c.config.move_fn.(FNMove)(x, y, user_data)
+
+			fn := c.config.move_fn.(FnMove)
+			switch _ in fn {
+			case FnMove_WithPtr:
+				fn.(FnMove_WithPtr)(x, y, c.config.user_data)
+			case FnMove_WithNoPtr:
+				fn.(FnMove_WithNoPtr)(x, y)
+			}
 		}
 	}
 
@@ -294,7 +354,14 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		if c.config.keydown_fn != nil {
 			modifiers := event.modifiers
 			keycode := event.key_code
-			c.config.keydown_fn.(FNKeyDown)(keycode, modifiers, user_data)
+
+			fn := c.config.keydown_fn.(FnKeyDown)
+			switch _ in fn {
+			case FnKeyDown_WithPtr:
+				fn.(FnKeyDown_WithPtr)(keycode, modifiers, c.config.user_data)
+			case FnKeyDown_WithNoPtr:
+				fn.(FnKeyDown_WithNoPtr)(keycode, modifiers)
+			}
 		}
 	}
 
@@ -302,7 +369,14 @@ on_event :: proc "c" (event: ^sapp.Event, _: rawptr) {
 		if c.config.keyup_fn != nil {
 			modifiers := event.modifiers
 			keycode := event.key_code
-			c.config.keyup_fn.(FNKeyUp)(keycode, modifiers, user_data)
+
+			fn := c.config.keyup_fn.(FnKeyUp)
+			switch _ in fn {
+			case FnKeyUp_WithPtr:
+				fn.(FnKeyUp_WithPtr)(keycode, modifiers, c.config.user_data)
+			case FnKeyUp_WithNoPtr:
+				fn.(FnKeyUp_WithNoPtr)(keycode, modifiers)
+			}
 		}
 	}
 }
@@ -361,7 +435,13 @@ cleanup :: proc "c" (_: rawptr) {
 	context = runtime.default_context()
 
 	if c.config.cleanup_fn != nil {
-		c.config.cleanup_fn.(FNCb)(c.config.user_data)
+		fn := c.config.cleanup_fn.(FnCb)
+		switch _ in fn {
+		case FnCb_WithPtr:
+			fn.(FnCb_WithPtr)(c.config.user_data)
+		case FnCb_WithNoPtr:
+			fn.(FnCb_WithNoPtr)()
+		}
 	}
 }
 
@@ -396,35 +476,35 @@ setup :: proc (config: CCConfig) {
 	}
 
     if c.config.init_fn == nil && ctx.pref.init_fn != nil {
-		c.config.init_fn = ctx.pref.init_fn.(FNCb)
+		c.config.init_fn = ctx.pref.init_fn.(FnCb)
 	}
 
     if c.config.cleanup_fn == nil && ctx.pref.cleanup_fn != nil {
-		c.config.cleanup_fn = ctx.pref.cleanup_fn.(FNCb)
+		c.config.cleanup_fn = ctx.pref.cleanup_fn.(FnCb)
 	}
 
     if c.config.event_fn == nil && ctx.pref.event_fn != nil {
-		c.config.event_fn = ctx.pref.event_fn.(FNEvent)
+		c.config.event_fn = ctx.pref.event_fn.(FnEvent)
 	}
 
     if c.config.keydown_fn == nil && ctx.pref.keydown_fn != nil {
-		c.config.keydown_fn = ctx.pref.keydown_fn.(FNKeyDown)
+		c.config.keydown_fn = ctx.pref.keydown_fn.(FnKeyDown)
 	}
 
     if c.config.keyup_fn == nil && ctx.pref.keyup_fn != nil {
-		c.config.keyup_fn = ctx.pref.keyup_fn.(FNKeyUp)
+		c.config.keyup_fn = ctx.pref.keyup_fn.(FnKeyUp)
 	}
 
     if c.config.click_fn == nil && ctx.pref.click_fn != nil {
-		c.config.click_fn = ctx.pref.click_fn.(FNClick)
+		c.config.click_fn = ctx.pref.click_fn.(FnClick)
 	}
 
     if c.config.unclick_fn == nil && ctx.pref.unclick_fn != nil {
-		c.config.unclick_fn = ctx.pref.unclick_fn.(FNUnClick)
+		c.config.unclick_fn = ctx.pref.unclick_fn.(FnUnClick)
 	}
 
     if c.config.move_fn == nil && ctx.pref.move_fn != nil {
-		c.config.move_fn = ctx.pref.move_fn.(FNMove)
+		c.config.move_fn = ctx.pref.move_fn.(FnMove)
 	}
 
 	if ctx.pref.title == "" {
