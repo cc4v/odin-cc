@@ -5,6 +5,7 @@
 package cc
 
 import "core:fmt"
+import "core:mem"
 import "base:runtime"
 import "core:strings"
 import sapp "shared:sokol/app"
@@ -186,6 +187,7 @@ init_pipeline :: proc() {
 	
 	// Alpha
 	alpha_pipdesc := sg.Pipeline_Desc{}
+	mem.set(&alpha_pipdesc, 0, int(size_of(alpha_pipdesc)))
 	alpha_pipdesc.label = "alpha-pipeline"
 	alpha_pipdesc.colors[0] = sg.Color_Target_State{
 		blend = sg.Blend_State{
@@ -198,6 +200,7 @@ init_pipeline :: proc() {
 
 	// Add
 	add_pipdesc := sg.Pipeline_Desc{}
+	mem.set(&add_pipdesc, 0, int(size_of(add_pipdesc)))
 	add_pipdesc.label = "add-pipeline"
 	add_pipdesc.colors[0] = sg.Color_Target_State{
 		blend = sg.Blend_State{
