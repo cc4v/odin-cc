@@ -2,7 +2,7 @@
 
 ![docs/screenshot_logo.png](docs/screenshot_logo.png)
 
-(code of above: [logo_icon](./logo-icon/main.odin))
+(code of above: [examples/logo_icon](https://github.com/cc4v/odin-cc-examples/blob/main/logo-icon/main.odin))
 
 > [!WARNING]
 > Currently at very early stage. API design may change.<br>
