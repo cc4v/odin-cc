@@ -298,7 +298,7 @@ frame :: proc "c" (_: rawptr) {
 	push_matrix()
 	push_style()
 
-	// sgl.defaults()
+	fill() // WORKAROUND: suppress flicker
 
 	if c.config.draw_fn != nil {
 		fn := c.config.draw_fn.(FnCb)
