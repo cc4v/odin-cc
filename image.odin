@@ -226,12 +226,13 @@ image_3d_with_size:: proc(img: ^Image, x: f32, y: f32, z: f32, w: f32, h: f32) {
             // fmt.println(x, y, w, h)
             // fmt.println(px0, py0, px1, py1)
 
-            if c.a != 255 {
+            // if c.a != 255 {
                 ctx := get_context()
                 if ctx.cc != nil {
                     sgl.load_pipeline(ctx.cc.pipelines.alpha)
+                    // sgl.load_pipeline(ctx.cc.pipelines.add)
                 }
-            }
+            // }
 
             // sgl.defaults()
             sgl.enable_texture()

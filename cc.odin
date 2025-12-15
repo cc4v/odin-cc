@@ -226,6 +226,8 @@ init :: proc "c" (_: rawptr) {
 
 	text_setup()
 
+	init_pipeline()
+
 	apply_style()
 
 	ctx := get_context()

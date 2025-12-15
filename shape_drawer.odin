@@ -177,7 +177,7 @@ draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segmen
 
     if c.a != 255 {
         ctx := get_context()
-        if ctx.cc != nil {
+        if ctx.cc != nil { 
             sgl.load_pipeline(ctx.cc.pipelines.alpha)
         }
     }
