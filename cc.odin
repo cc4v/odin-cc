@@ -210,7 +210,10 @@ init :: proc "c" (_: rawptr) {
 begin :: proc () {
     dw := sapp.width()
     dh := sapp.height()
-	sgl.viewport(0, 0, dw, dh, true)
+	// sgl.viewport(0, 0, dw, dh, true)
+	sgl.defaults()
+	sgl.matrix_mode_projection()
+	sgl.ortho(0.0, f32(dw), f32(dh), 0.0, -1.0, 1.0)
 }
 
 @(private)
@@ -255,7 +258,7 @@ frame :: proc "c" (_: rawptr) {
 	push_matrix()
 	push_style()
 
-	sgl.defaults()
+	// sgl.defaults()
 
 	if c.config.draw_fn != nil {
 		fn := c.config.draw_fn.(FnCb)

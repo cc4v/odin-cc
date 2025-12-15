@@ -42,10 +42,14 @@ draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
     c := colors.u8_color(col)
 
     // FIXME: need optimization? SIMD or something
-    px1 := util.mapf(x1, 0, ww, -1, 1)
-    py1 := util.mapf(y1, 0, wh, 1, -1)
-    px2 := util.mapf(x2, 0, ww, -1, 1)
-    py2 := util.mapf(y2, 0, wh, 1, -1)
+    // px1 := util.mapf(x1, 0, ww, -1, 1)
+    // py1 := util.mapf(y1, 0, wh, 1, -1)
+    // px2 := util.mapf(x2, 0, ww, -1, 1)
+    // py2 := util.mapf(y2, 0, wh, 1, -1)
+    px1 := x1
+    py1 := y1
+    px2 := x2
+    py2 := y2
 
     // sgl.defaults()
     sgl.begin_lines()
@@ -65,16 +69,19 @@ draw_quad :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     c := colors.u8_color(col)
 
     // FIXME: need optimization? SIMD or something
-    x0 := util.mapf(x, 0, ww, -1, 1)
-    y0 := util.mapf(y, 0, wh, 1, -1)
-    x1 := util.mapf(x + w, 0, ww, -1, 1)
-    y1 := util.mapf(y + h, 0, wh, 1, -1)
+    // x0 := util.mapf(x, 0, ww, -1, 1)
+    // y0 := util.mapf(y, 0, wh, 1, -1)
+    // x1 := util.mapf(x + w, 0, ww, -1, 1)
+    // y1 := util.mapf(y + h, 0, wh, 1, -1)
+    x0 := x
+    y0 := y
+    x1 := x + w
+    y1 := y + h
 
     // fmt.println("x y w h", x, y, w, h)
     // fmt.println("ww, wh", ww, wh)
     // fmt.println("x0 y0 x1 y1", x0, y0, x1, x1)
 
-    // sgl.defaults()
     sgl.begin_quads()
     sgl.c4b(c.r, c.g, c.b, c.a)
     sgl.v2f(x0, y0)
@@ -92,10 +99,14 @@ draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segme
 
     c := colors.u8_color(col)
 
-    x0 := util.mapf(x, 0, ww, -1, 1)
-    y0 := util.mapf(y, 0, wh, 1, -1)
-    rw := abs(util.mapf(radius, 0, ww, -1, 1))
-    rh := abs(util.mapf(radius, 0, wh, -1, 1))
+    // x0 := util.mapf(x, 0, ww, -1, 1)
+    // y0 := util.mapf(y, 0, wh, 1, -1)
+    // rw := abs(util.mapf(radius, 0, ww, -1, 1))
+    // rh := abs(util.mapf(radius, 0, wh, -1, 1))
+    x0 := x
+    y0 := y
+    rw := radius
+    rh := radius
 
 	nx := x0
 	ny := y0
@@ -103,7 +114,6 @@ draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segme
 	xx := f32(0)
 	yy := f32(0)
 
-    // sgl.defaults()
     sgl.begin_triangle_strip()
     sgl.c4b(c.r, c.g, c.b, c.a)
 	for i := 0; i < segments + 1; i += 1 {
@@ -121,10 +131,14 @@ draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segmen
     wh := sapp.heightf()
     c := colors.u8_color(col)
 
-    x0 := util.mapf(x, 0, ww, -1, 1)
-    y0 := util.mapf(y, 0, wh, 1, -1)
-    rw := abs(util.mapf(radius, 0, ww, -1, 1))
-    rh := abs(util.mapf(radius, 0, wh, -1, 1))
+    // x0 := util.mapf(x, 0, ww, -1, 1)
+    // y0 := util.mapf(y, 0, wh, 1, -1)
+    // rw := abs(util.mapf(radius, 0, ww, -1, 1))
+    // rh := abs(util.mapf(radius, 0, wh, -1, 1))
+    x0 := x
+    y0 := y
+    rw := radius
+    rh := radius
 
 	nx := x0
 	ny := y0
