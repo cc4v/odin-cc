@@ -8,7 +8,7 @@
 > Currently at very early stage. API design may change.<br>
 > (see [docs/coverage.md](docs/coverage.md))
 
-Creative Coding framework on [Odin language](https://odin-lang.org/). Forked from [cc4v](https://github.com/cc4v/cc4v). Works on Win/Mac/Linux.
+Creative Coding framework in [Odin language](https://odin-lang.org/). Forked from [cc4v](https://github.com/cc4v/cc4v). Works on Win/Mac/Linux.
 
 Aiming to provide APIs like [openFrameworks](https://openframeworks.cc/documentation/) or [Processing](https://processing.org/reference) on top of [Sokol](https://github.com/floooh/sokol) framework ([sokol-odin](https://github.com/floooh/sokol-odin/)), kind of like [V language](https://vlang.io/)'s [gg](https://modules.vlang.io/gg.html) wrapper and [cc4v](https://github.com/cc4v/cc4v), with a little essence of [Ebitengine](https://ebitengine.org/). (Please check [docs/api_design.md](docs/api_design.md))
 
