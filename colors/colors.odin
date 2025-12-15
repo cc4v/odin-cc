@@ -40,6 +40,41 @@ color_from_hex :: proc(hex: int) -> types.Color {
     return f32_color(col_u8)
 }
 
+color_from_rgb :: proc(r: u8, g: u8, b: u8) -> types.Color {
+    return types.Color {
+        r = f32(r) / 255.0,
+        g = f32(g) / 255.0,
+        b = f32(b) / 255.0,
+    }
+}
+
+color_from_rgba :: proc(r: u8, g: u8, b: u8, a: u8) -> types.Color {
+    return types.Color {
+        r = f32(r) / 255.0,
+        g = f32(g) / 255.0,
+        b = f32(b) / 255.0,
+        a = f32(a) / 255.0,
+    }
+}
+
+color_u8_from_rgb :: proc(r: u8, g: u8, b: u8) -> types.ColorU8 {
+    return types.ColorU8 {
+        r = r,
+        g = g,
+        b = b,
+    }
+}
+
+color_u8_from_rgba :: proc(r: u8, g: u8, b: u8, a: u8) -> types.ColorU8 {
+    return types.ColorU8 {
+        r = r,
+        g = g,
+        b = b,
+        a = a,
+    }
+}
+
+
 black := types.color(0, 0, 0)
 white := types.color(255, 255, 255)
 gray := types.color(128, 128, 128)
