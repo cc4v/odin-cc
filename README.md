@@ -1,5 +1,9 @@
 # odin-cc
 
+![docs/screenshot_logo.png](docs/screenshot_logo.png)
+
+(code of above: [logo_icon](./logo-icon/main.odin))
+
 > [!WARNING]
 > Currently at very early stage. API design may change.<br>
 > (see [docs/coverage.md](docs/coverage.md))
