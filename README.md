@@ -5,7 +5,7 @@
 (code of above: [examples/logo_icon](https://github.com/cc4v/odin-cc-examples/blob/main/logo-icon/main.odin))
 
 > [!WARNING]
-> Currently at very early stage. API design may change.<br>
+> Currently at early stage. API design may change.<br>
 > (see [docs/coverage.md](docs/coverage.md))
 
 Creative Coding framework in [Odin language](https://odin-lang.org/). Forked from [cc4v](https://github.com/cc4v/cc4v). Works on Win/Mac/Linux.
