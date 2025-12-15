@@ -114,7 +114,7 @@ delete_image :: proc(image: ^Image) {
     }
 }
 
-@(private)
+// @(private)
 init_sokol_image :: proc(img: ^Image) {
     // fmt.println('\n init sokol image $img.path ok=$img.simg_ok')
     img_desc := sg.Image_Desc{
