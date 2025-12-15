@@ -104,11 +104,17 @@ default_style :: proc() -> CCStyle {
     }
 }
 
+CCPipelines :: struct {
+	alpha: sg.Pipeline,
+	add:   sg.Pipeline
+}
+
 CC :: struct {
     config:         CCConfig,
 	state:          ^CCState,
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
+	pipelines: CCPipelines,
 	// fullscreen:     bool,
 	// image_cache:    [dynamic]Image,
 	img_count : int,
@@ -172,6 +178,35 @@ state := CCState {
     pass_action = {
         colors = { 0 = { load_action = .CLEAR, clear_value = { 0.0, 0.0, 0.0, 1.0 } } },
     },
+}
+
+@(private)
+init_pipeline :: proc() {
+	ctx := get_context()
+	
+	// Alpha
+	alpha_pipdesc := sg.Pipeline_Desc{}
+	alpha_pipdesc.label = "alpha-pipeline"
+	alpha_pipdesc.colors[0] = sg.Color_Target_State{
+		blend = sg.Blend_State{
+			enabled =        true,
+			src_factor_rgb = .SRC_ALPHA,
+			dst_factor_rgb = .ONE_MINUS_SRC_ALPHA,
+		}
+	}
+	ctx.cc.pipelines.alpha = sg.make_pipeline(alpha_pipdesc)
+
+	// Add
+	add_pipdesc := sg.Pipeline_Desc{}
+	add_pipdesc.label = "add-pipeline"
+	add_pipdesc.colors[0] = sg.Color_Target_State{
+		blend = sg.Blend_State{
+			enabled =        true,
+			src_factor_rgb = .SRC_ALPHA,
+			dst_factor_rgb = .ONE,
+		}
+	}
+	ctx.cc.pipelines.add = sg.make_pipeline(add_pipdesc)
 }
 
 @(private)

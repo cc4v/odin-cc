@@ -149,7 +149,10 @@ draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segmen
     // fmt.println("x0, y0", x0, y0)
     // fmt.println("rw, rh", rw, rh)
 
-    // sgl.defaults()
+    // if c.a != 255 {
+    //     sgl.load_pipeline()
+    // }
+
 	sgl.begin_line_strip()
     sgl.c4b(c.r, c.g, c.b, c.a)
 	for i := 0; i < segments + 1; i += 1 {
