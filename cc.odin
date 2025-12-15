@@ -105,8 +105,8 @@ default_style :: proc() -> CCStyle {
 }
 
 CCPipelines :: struct {
-	alpha: sg.Pipeline,
-	add:   sg.Pipeline
+	alpha: sgl.Pipeline,
+	add:   sgl.Pipeline
 }
 
 CC :: struct {
@@ -194,7 +194,7 @@ init_pipeline :: proc() {
 			dst_factor_rgb = .ONE_MINUS_SRC_ALPHA,
 		}
 	}
-	ctx.cc.pipelines.alpha = sg.make_pipeline(alpha_pipdesc)
+	ctx.cc.pipelines.alpha = sgl.make_pipeline(alpha_pipdesc)
 
 	// Add
 	add_pipdesc := sg.Pipeline_Desc{}
@@ -206,7 +206,7 @@ init_pipeline :: proc() {
 			dst_factor_rgb = .ONE,
 		}
 	}
-	ctx.cc.pipelines.add = sg.make_pipeline(add_pipdesc)
+	ctx.cc.pipelines.add = sgl.make_pipeline(add_pipdesc)
 }
 
 @(private)

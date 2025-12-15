@@ -4,13 +4,11 @@
 
 package cc
 
-import sd "./shape_drawer"
-
 line :: proc (x1: f32, y1: f32, x2: f32, y2: f32) {
 	ctx := get_context()
 	if ctx.cc != nil {
         col := ctx.cc.current_style.color
-        sd.draw_line(x1, y1, x2, y2, col)
+        draw_line(x1, y1, x2, y2, col)
     }
 }
 
@@ -19,9 +17,9 @@ rect :: proc (x: f32, y: f32, w: f32, h: f32) {
 	if ctx.cc != nil {
 		col := ctx.cc.current_style.color
 		if ctx.cc.current_style.fill {
-			sd.draw_rect_filled(x, y, w, h, col)
+			draw_rect_filled(x, y, w, h, col)
 		} else {
-			sd.draw_rect_empty(x, y, w, h, col)
+			draw_rect_empty(x, y, w, h, col)
 		}
 	}
 }
@@ -38,9 +36,9 @@ circle :: proc (x: f32, y: f32, radius: f32) {
 		col := ctx.cc.current_style.color
 		segments := ctx.cc.current_style.circle_resolution
 		if ctx.cc.current_style.fill {
-			sd.draw_circle_filled(x, y, radius, col, segments)
+			draw_circle_filled(x, y, radius, col, segments)
 		} else {
-			sd.draw_circle_empty(x, y, radius, col, segments)
+			draw_circle_empty(x, y, radius, col, segments)
 		}
 	}
 }

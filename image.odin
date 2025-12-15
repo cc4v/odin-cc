@@ -213,14 +213,25 @@ image_3d_with_size:: proc(img: ^Image, x: f32, y: f32, z: f32, w: f32, h: f32) {
             u1f := f32(1)
             v1f := f32(1)
 
-            px0 := util.mapf(x, 0, ww, -1, 1)
-            py0 := util.mapf(y, 0, wh, 1, -1)
-            px1 := util.mapf(x + w, 0, ww, -1, 1)
-            py1 := util.mapf(y + h, 0, wh, 1, -1)
+            // px0 := util.mapf(x, 0, ww, -1, 1)
+            // py0 := util.mapf(y, 0, wh, 1, -1)
+            // px1 := util.mapf(x + w, 0, ww, -1, 1)
+            // py1 := util.mapf(y + h, 0, wh, 1, -1)
+            px0 := x
+            py0 := y
+            px1 := x + w
+            py1 := y + h
 
             // fmt.println("ww, wh", ww, wh)
             // fmt.println(x, y, w, h)
             // fmt.println(px0, py0, px1, py1)
+
+            if c.a != 255 {
+                ctx := get_context()
+                if ctx.cc != nil {
+                    sgl.load_pipeline(ctx.cc.pipelines.alpha)
+                }
+            }
 
             // sgl.defaults()
             sgl.enable_texture()

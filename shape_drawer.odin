@@ -2,20 +2,22 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-package shape_drawer
+package cc
 
 // import "core:fmt"
 import "core:math"
-import types "../types"
-import colors "../colors"
+import types "./types"
+import colors "./colors"
 import sgl "shared:sokol/gl"
 import sapp "shared:sokol/app"
-import util "../util"
+import util "./util"
 
+@(private)
 draw_rect_filled :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     draw_quad(x, y, w, h, col)
 }
 
+@(private)
 draw_rect_empty :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
 
     // TODO: line width
@@ -33,6 +35,7 @@ draw_rect_empty :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     draw_line(x + w,    y,     x + w,  y + h,   col)
 }
 
+@(private)
 draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
     ww := sapp.widthf()
     wh := sapp.heightf()
@@ -50,6 +53,13 @@ draw_line :: proc (x1: f32, y1: f32, x2: f32, y2: f32, col: types.Color) {
     py1 := y1
     px2 := x2
     py2 := y2
+
+    if c.a != 255 {
+        ctx := get_context()
+        if ctx.cc != nil {
+            sgl.load_pipeline(ctx.cc.pipelines.alpha)
+        }
+    }
 
     // sgl.defaults()
     sgl.begin_lines()
@@ -82,6 +92,13 @@ draw_quad :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     // fmt.println("ww, wh", ww, wh)
     // fmt.println("x0 y0 x1 y1", x0, y0, x1, x1)
 
+    if c.a != 255 {
+        ctx := get_context()
+        if ctx.cc != nil {
+            sgl.load_pipeline(ctx.cc.pipelines.alpha)
+        }
+    }
+
     sgl.begin_quads()
     sgl.c4b(c.r, c.g, c.b, c.a)
     sgl.v2f(x0, y0)
@@ -91,6 +108,7 @@ draw_quad :: proc (x: f32, y: f32, w: f32, h: f32, col: types.Color) {
     sgl.end()
 }
 
+@(private)
 draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segments: int) {
     ww := sapp.widthf()
     wh := sapp.heightf()
@@ -114,6 +132,13 @@ draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segme
 	xx := f32(0)
 	yy := f32(0)
 
+    if c.a != 255 {
+        ctx := get_context()
+        if ctx.cc != nil {
+            sgl.load_pipeline(ctx.cc.pipelines.alpha)
+        }
+    }
+
     sgl.begin_triangle_strip()
     sgl.c4b(c.r, c.g, c.b, c.a)
 	for i := 0; i < segments + 1; i += 1 {
@@ -126,6 +151,7 @@ draw_circle_filled :: proc (x: f32, y: f32, radius: f32, col: types.Color, segme
 	sgl.end()
 }
 
+@(private)
 draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segments: int) {
     ww := sapp.widthf()
     wh := sapp.heightf()
@@ -149,9 +175,12 @@ draw_circle_empty :: proc (x: f32, y: f32, radius: f32, col: types.Color, segmen
     // fmt.println("x0, y0", x0, y0)
     // fmt.println("rw, rh", rw, rh)
 
-    // if c.a != 255 {
-    //     sgl.load_pipeline()
-    // }
+    if c.a != 255 {
+        ctx := get_context()
+        if ctx.cc != nil {
+            sgl.load_pipeline(ctx.cc.pipelines.alpha)
+        }
+    }
 
 	sgl.begin_line_strip()
     sgl.c4b(c.r, c.g, c.b, c.a)
