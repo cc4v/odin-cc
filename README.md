@@ -27,7 +27,7 @@ Tested with Odin dev-2025-12-nightly
 
 I know "cc" is usually used for "C language Compoiler" (such as `gcc`).
 
-So if you need full-name of this library, you can use "creco" or "odin-cc" instead.
+So if you need full-name of this library, call it "creco" or "odin-cc" instead.
 
 ## Pre-requisites
 
