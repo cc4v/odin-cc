@@ -4,6 +4,9 @@
 
 - Processing style ([example1](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world/main.odin), [example2](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world2/main.odin))
 
+> [!NOTE]
+> openFrameworks style (which covered in [cc4v](https://github.com/cc4v/cc4v/)) is not planned in Odin version, because method call (function pointer) style will not match Odin.)
+
 <!--
 
 - openFrameworks style ([example](https://github.com/cc4v/odin-cc-examples/blob/main/hello_world3/main.odin))
