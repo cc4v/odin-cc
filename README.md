@@ -1,4 +1,4 @@
-# odin-cc
+# odin-cc (creco)
 
 ![docs/screenshot_logo.png](docs/screenshot_logo.png)
 
@@ -54,6 +54,14 @@ $ git clone https://github.com/cc4v/odin-cc-examples
 $ cd odin-cc-examples
 $ odin run hello_world
 ```
+
+## Naming ("cc" and "creco")
+
+"cc" stands for "Creative Coding".
+
+I know "cc" is usually used for "C language Compoiler" (such as `gcc`).
+
+So if you need full-name of this library, you can use "creco" or "odin-cc" instead.
 
 ## Contribution
 
