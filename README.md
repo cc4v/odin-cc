@@ -12,7 +12,7 @@ Creative Coding framework in [Odin language](https://odin-lang.org/). Forked fro
 
 Aiming to provide APIs like [openFrameworks](https://openframeworks.cc/documentation/) or [Processing](https://processing.org/reference) on top of [Sokol](https://github.com/floooh/sokol) framework ([sokol-odin](https://github.com/floooh/sokol-odin/)), with a little essence of [Ebitengine](https://ebitengine.org/). (Please check [docs/api_design.md](docs/api_design.md))
 
-Tested on Odin dev-2025-12-nightly
+Tested with Odin dev-2025-12-nightly
 
 ## Features
 
