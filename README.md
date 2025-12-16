@@ -21,6 +21,14 @@ Tested with Odin dev-2025-12-nightly
 - APIs are similar to [openFrameworks](https://openframeworks.cc/) or [Processing](https://processing.org/).
 - You can use GL-compatible draw call using Sokol GL. (OpenGL 1.x style immediate-mode rendering API on top of sokol_gfx.h)
 
+## Naming ("cc" and "creco")
+
+"cc" stands for "Creative Coding".
+
+I know "cc" is usually used for "C language Compoiler" (such as `gcc`).
+
+So if you need full-name of this library, you can use "creco" or "odin-cc" instead.
+
 ## Pre-requisites
 
 ### Install sokol-odin
@@ -54,14 +62,6 @@ $ git clone https://github.com/cc4v/odin-cc-examples
 $ cd odin-cc-examples
 $ odin run hello_world
 ```
-
-## Naming ("cc" and "creco")
-
-"cc" stands for "Creative Coding".
-
-I know "cc" is usually used for "C language Compoiler" (such as `gcc`).
-
-So if you need full-name of this library, you can use "creco" or "odin-cc" instead.
 
 ## Contribution
 
