@@ -63,6 +63,19 @@ $ cd odin-cc-examples
 $ odin run hello_world
 ```
 
+## Shaders
+
+The shader example uses `sokol-shdc` to generate an Odin module from annotated
+GLSL. Install `sokol-shdc`, make it available in `PATH`, and run:
+
+```bash
+$ ./scripts/compile-shaders.sh
+$ odin run shader_rect
+```
+
+On Windows, use `scripts/compile-shaders.ps1`. Set `SOKOL_SHDC` to the full
+path of `sokol-shdc.exe` when it is not in `PATH`.
+
 ## Contribution
 
 Please check [docs/api_design.md](docs/api_design.md), [docs/coverage.md](docs/coverage.md), and [LICENSE.md](LICENSE.md).

@@ -50,6 +50,8 @@
 - scroll_y
 - width
 - height
+- frame_count
+- elapsed_time
 - fullscreen (enter_fullscreen)
 - is_fullscreen
 
@@ -109,6 +111,15 @@
 - begin_contour / end_contour
 - triangle
 - arc
+
+## [Shader](../shader.odin)
+
+- shader_from_desc
+- shader_make_pipeline
+- shader_begin
+- shader_set_uniform
+- shader_draw
+- Shader_Rect ([example](https://github.com/cc4v/odin-cc-examples/blob/main/shader_rect/main.odin))
 
 <!--
 - rounded_rect

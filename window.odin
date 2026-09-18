@@ -35,6 +35,14 @@ height :: proc() -> int {
 	}
 }
 
+frame_count :: proc() -> u64 {
+	return sapp.frame_count()
+}
+
+elapsed_time :: proc() -> f64 {
+	return f64(sapp.frame_count()) * sapp.frame_duration()
+}
+
 title :: proc(str: string) {
 	ctx := get_context()
 	if ctx.cc != nil {
