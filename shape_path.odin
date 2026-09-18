@@ -91,12 +91,66 @@ end_shape :: proc(close: bool) {
 	if !ctx.cc.current_style.fill {
 		for i in 0..=len(points)-2 { draw_line(points[i].x, points[i].y, points[i+1].x, points[i+1].y, color) }
 	} else {
-		sgl.c4f(color.r, color.g, color.b, color.a)
-		sgl.begin_triangles()
-		for i in 1..=len(points)-3 {
-			sgl.v2f(points[0].x, points[0].y); sgl.v2f(points[i].x, points[i].y); sgl.v2f(points[i+1].x, points[i+1].y)
-		}
-		sgl.end()
+		draw_filled_polygon(points[:len(points)-1], color)
 	}
 	ctx.cc.path_points = nil
+}
+
+draw_filled_polygon :: proc(points: []Path_Point, color: types.Color) {
+	if len(points) < 3 { return }
+	indices := make([dynamic]int, len(points))
+	for i in 0..<len(points) { indices[i] = i }
+	orientation := f32(1)
+	if polygon_area(points) < 0 { orientation = -1 }
+	sgl.c4f(color.r, color.g, color.b, color.a)
+	sgl.begin_triangles()
+	guard := 0
+	for len(indices) > 3 && guard < len(points)*len(points) {
+		clipped := false
+		for i in 0..<len(indices) {
+			previous := points[indices[(i+len(indices)-1)%len(indices)]]
+			current := points[indices[i]]
+			next := points[indices[(i+1)%len(indices)]]
+			if path_cross(previous, current, next) * orientation <= 0 { continue }
+			contains := false
+			for candidate_index in indices {
+				if candidate_index == indices[(i+len(indices)-1)%len(indices)] || candidate_index == indices[i] || candidate_index == indices[(i+1)%len(indices)] { continue }
+				if path_point_in_triangle(points[candidate_index], previous, current, next, orientation) {
+					contains = true
+					break
+				}
+			}
+			if contains { continue }
+			sgl.v2f(previous.x, previous.y); sgl.v2f(current.x, current.y); sgl.v2f(next.x, next.y)
+			for j in i..<len(indices)-1 { indices[j] = indices[j+1] }
+			pop(&indices)
+			clipped = true
+			break
+		}
+		if !clipped { break }
+		guard += 1
+	}
+	if len(indices) == 3 {
+		sgl.v2f(points[indices[0]].x, points[indices[0]].y)
+		sgl.v2f(points[indices[1]].x, points[indices[1]].y)
+		sgl.v2f(points[indices[2]].x, points[indices[2]].y)
+	}
+	sgl.end()
+}
+
+polygon_area :: proc(points: []Path_Point) -> f32 {
+	area := f32(0)
+	for i in 0..<len(points) {
+		next := (i+1) % len(points)
+		area += points[i].x * points[next].y - points[next].x * points[i].y
+	}
+	return area * 0.5
+}
+
+path_cross :: proc(a, b, c: Path_Point) -> f32 {
+	return (b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x)
+}
+
+path_point_in_triangle :: proc(point, a, b, c: Path_Point, orientation: f32) -> bool {
+	return path_cross(a, b, point)*orientation >= 0 && path_cross(b, c, point)*orientation >= 0 && path_cross(c, a, point)*orientation >= 0
 }
