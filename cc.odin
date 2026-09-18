@@ -115,6 +115,7 @@ CC :: struct {
 	state:          ^CCState,
 	current_style:  CCStyle,
 	style_history:  Stack(CCStyle, cc_max_style_history),
+	path_points:    [dynamic]Path_Point,
 	pipelines: CCPipelines,
 	// fullscreen:     bool,
 	// image_cache:    [dynamic]Image,

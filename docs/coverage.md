@@ -96,6 +96,20 @@
 - circle ([example](https://github.com/cc4v/odin-cc-examples/blob/main/circle/main.odin))
 - line
 
+## [Shape Path](../shape_path.odin)
+
+- begin_shape / end_shape ([example](https://github.com/cc4v/odin-cc-examples/blob/main/path/main.odin))
+- vertex
+- move_to
+- bezier_vertex
+- quadratic_vertex
+- curve_vertex
+- bezier
+- curve
+- begin_contour / end_contour
+- triangle
+- arc
+
 <!--
 - rounded_rect
 -->
